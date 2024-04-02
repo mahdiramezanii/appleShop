@@ -37,7 +37,7 @@
 
 2. **کلون کردن ریپازیتوری:**
    ```bash
-   git clone https://github.com/your/repository.git
+   git clone https://github.com/mahdiramezanii/appleShop
    ```
 
 3. **نصب وابستگی‌ها:**
@@ -52,25 +52,21 @@
    ```
 
 ### توسعه‌دهندگان:
-- [نام توسعه‌دهنده 1](https://github.com/developer1)
-- [نام توسعه‌دهنده 2](https://github.com/developer2)
+- [نام توسعه‌دهنده 1](https://github.com/mahdiramezanii)
+
 
 ### مجوز:
 این پروژه تحت مجوز [مجوز مثلث MIT](LICENSE) منتشر شده است.
 
 ### ارتباط با ما:
 برای ارتباط با توسعه‌دهندگان و گزارش مشکلات، می‌توانید به ایمیل زیر مراجعه کنید:
-[ایمیل توسعه‌دهندگان](mailto:developer@example.com)
+[ایمیل توسعه‌دهندگان](mailto:mahdiramazanii.official@gmail.com)
 
-### تشکر و قدردانی:
-از تمامی افرادی که در توسعه این پروژه مشارکت کرده‌اند و از کتابخانه‌ها و ابزارهای متن‌بازی که استفاده شده است، سپاسگزاری می‌کنیم.
 
-### منابع:
-- [فلاتر](https://flutter.dev/)
-- [دیجی کالا](https://www.digikala.com/)
-- [مجوز MIT](https://opensource.org/licenses/MIT)
+
+
 
 این README برای شروع کار و استفاده آسان تر از پروژه، توسط توسعه‌دهندگان آماده شده است. به دلیل پیچیدگی‌های فنی و مستندات کد، به مستندات داخل کدها نیز مراجعه کنید.
 
-<img src="https://raw.githubusercontent.com/mahdiramezanii/appleShop/main/assets/images/ui.png" width="300">
+<img src="https://raw.githubusercontent.com/mahdiramezanii/appleShop/main/assets/images/ui.png" width="500">
 
