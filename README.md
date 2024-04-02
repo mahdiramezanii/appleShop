@@ -52,7 +52,7 @@
    ```
 
 ### توسعه‌دهندگان:
-- [نام توسعه‌دهنده 1](https://github.com/mahdiramezanii)
+- [مهدی رمضانی](https://github.com/mahdiramezanii)
 
 
 ### مجوز:
@@ -60,7 +60,7 @@
 
 ### ارتباط با ما:
 برای ارتباط با توسعه‌دهندگان و گزارش مشکلات، می‌توانید به ایمیل زیر مراجعه کنید:
-[ایمیل توسعه‌دهندگان](mailto:mahdiramazanii.official@gmail.com)
+[ایمیل توسعه دهنده](mailto:mahdiramazanii.official@gmail.com)
 
 
 
