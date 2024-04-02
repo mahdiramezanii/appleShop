@@ -1,16 +1,76 @@
 # apple_shop
 
-A new Flutter project.
+## پروژه مشابه اپلیکیشن دیجی کالا با استفاده از فلاتر
 
-## Getting Started
+### مقدمه:
+این پروژه یک اپلیکیشن موبایل است که با استفاده از فریمورک فلاتر توسعه داده شده است. این اپلیکیشن مشابه سایت و اپلیکیشن دیجی کالا عمل می‌کند و امکانات خرید و فروش محصولات را فراهم می‌کند.
 
-This project is a starting point for a Flutter application.
+### ویژگی‌های اصلی:
+1. **صفحه اصلی (Home Page):**
+   - نمایش محصولات پرفروش و تازه وارد شده
+   - دسته بندی محصولات
+   - جستجوی محصولات بر اساس عنوان و ویژگی‌ها
 
-A few resources to get you started if this is your first Flutter project:
+2. **جزئیات محصول (Product Details):**
+   - نمایش تصاویر بزرگ محصول
+   - اطلاعات محصول شامل قیمت، توضیحات و مشخصات فنی
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3. **سبد خرید (Shopping Cart):**
+   - افزودن محصولات به سبد خرید
+   - حذف محصولات از سبد خرید
+   - محاسبه قیمت کل سفارش و هزینه ارسال
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+4. **ثبت سفارش (Checkout):**
+   - وارد کردن اطلاعات پرداخت و آدرس
+   - تأیید و ارسال سفارش
+
+5. **مدیریت حساب کاربری (User Account Management):**
+   - ثبت‌نام و ورود به حساب کاربری
+   - مشاهده سفارشات قبلی
+   - ویرایش اطلاعات حساب کاربری
+
+### نصب و اجرا:
+برای نصب و اجرای این پروژه می‌توانید به مراحل زیر مراجعه کنید:
+
+1. **نصب Flutter:**
+   - برای نصب فلاتر، می‌توانید به راهنمای رسمی فلاتر در [اینجا](https://flutter.dev/docs/get-started/install) مراجعه کنید.
+
+2. **کلون کردن ریپازیتوری:**
+   ```bash
+   git clone https://github.com/your/repository.git
+   ```
+
+3. **نصب وابستگی‌ها:**
+   ```bash
+   cd project_directory
+   flutter pub get
+   ```
+
+4. **اجرا:**
+   ```bash
+   flutter run
+   ```
+
+### توسعه‌دهندگان:
+- [نام توسعه‌دهنده 1](https://github.com/developer1)
+- [نام توسعه‌دهنده 2](https://github.com/developer2)
+
+### مجوز:
+این پروژه تحت مجوز [مجوز مثلث MIT](LICENSE) منتشر شده است.
+
+### ارتباط با ما:
+برای ارتباط با توسعه‌دهندگان و گزارش مشکلات، می‌توانید به ایمیل زیر مراجعه کنید:
+[ایمیل توسعه‌دهندگان](mailto:developer@example.com)
+
+### تشکر و قدردانی:
+از تمامی افرادی که در توسعه این پروژه مشارکت کرده‌اند و از کتابخانه‌ها و ابزارهای متن‌بازی که استفاده شده است، سپاسگزاری می‌کنیم.
+
+### منابع:
+- [فلاتر](https://flutter.dev/)
+- [دیجی کالا](https://www.digikala.com/)
+- [مجوز MIT](https://opensource.org/licenses/MIT)
+
+این README برای شروع کار و استفاده آسان تر از پروژه، توسط توسعه‌دهندگان آماده شده است. به دلیل پیچیدگی‌های فنی و مستندات کد، به مستندات داخل کدها نیز مراجعه کنید.
+
+<img src="https://raw.githubusercontent.com/mahdiramezanii/appleShop/main/assets/images/ui.png" width="300">
+
