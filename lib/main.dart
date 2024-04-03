@@ -1,3 +1,4 @@
+import 'package:apple_shop/screan/bootom_navigation.dart';
 import 'package:apple_shop/screan/category_screan.dart';
 import 'package:apple_shop/screan/home_screan.dart';
 import 'package:apple_shop/screan/profile_screan.dart';
@@ -14,8 +15,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      home: ProfileScrean(),
+    return   MaterialApp(
+      home: BottomNavigatonScrean(),
+      
     );
   }
 
