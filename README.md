@@ -68,5 +68,16 @@
 
 این README برای شروع کار و استفاده آسان تر از پروژه، توسط توسعه‌دهندگان آماده شده است. به دلیل پیچیدگی‌های فنی و مستندات کد، به مستندات داخل کدها نیز مراجعه کنید.
 
+<h1>طرح رابط کاربری</h1>
+
 <img src="https://raw.githubusercontent.com/mahdiramezanii/appleShop/main/assets/images/ui.png" width="500">
+<br>
+<hr>
+
+<h1>پیاده سازی با فلاتر</h1>
+
+
+<img src="https://raw.githubusercontent.com/mahdiramezanii/appleShop/main/assets/images/Screenshot%202024-04-03%20195249.png" width="500">
+
+
 
