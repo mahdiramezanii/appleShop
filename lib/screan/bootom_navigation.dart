@@ -1,7 +1,9 @@
 import "dart:ui";
 
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/screan/category_screan.dart";
 import "package:apple_shop/screan/home_screan.dart";
+import "package:apple_shop/screan/profile_screan.dart";
 import "package:flutter/material.dart";
 
 class BottomNavigatonScrean extends StatefulWidget {
@@ -12,13 +14,16 @@ class BottomNavigatonScrean extends StatefulWidget {
 }
 
 class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
-  var _selectedIndex=0;
+  var _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.white,
-      body: const HomeScrean(),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: get_layout(),
+      ),
       bottomNavigationBar: ClipRRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -28,16 +33,15 @@ class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
             elevation: 0.0,
             onTap: (value) {
               setState(() {
-                _selectedIndex=value;
+                _selectedIndex = value;
               });
-             
             },
             currentIndex: _selectedIndex,
             showUnselectedLabels: true,
             unselectedLabelStyle: const TextStyle(fontFamily: "sb"),
             unselectedItemColor: Colors.black,
             selectedItemColor: MyColors.blue,
-            selectedLabelStyle:const TextStyle(fontFamily: "sb"),
+            selectedLabelStyle: const TextStyle(fontFamily: "sb"),
             items: [
               BottomNavigationBarItem(
                 icon: Image.asset("assets/images/account_icon.png"),
@@ -58,7 +62,8 @@ class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
               BottomNavigationBarItem(
                 icon: Image.asset("assets/images/categry_icon.png"),
                 label: "دسته بندی ها",
-                activeIcon: Image.asset("assets/images/category_active_icon.png"),
+                activeIcon:
+                    Image.asset("assets/images/category_active_icon.png"),
               ),
               BottomNavigationBarItem(
                 icon: Image.asset("assets/images/home_icon.png"),
@@ -70,5 +75,16 @@ class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
         ),
       ),
     );
+  }
+
+  List<Widget> get_layout() {
+    List<Widget> layouts = [
+      ProfileScrean(),
+      HomeScrean(),
+      CategoryScrean(),
+      HomeScrean(),
+    ];
+
+    return layouts;
   }
 }
