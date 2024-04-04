@@ -49,6 +49,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.6"
+  dotted_line:
+    dependency: "direct main"
+    description:
+      name: dotted_line
+      sha256: c931ba331656154711d9420f369f80cf9e8869ca9933ae5fb35b7669bcbe7d2e
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.2.2"
   fake_async:
     dependency: transitive
     description:
