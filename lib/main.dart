@@ -1,5 +1,6 @@
 import 'package:apple_shop/screan/bootom_navigation.dart';
 import 'package:apple_shop/screan/category_screan.dart';
+import 'package:apple_shop/screan/detail_prodoct_item.dart';
 import 'package:apple_shop/screan/home_screan.dart';
 import 'package:apple_shop/screan/profile_screan.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return   MaterialApp(
-      home: BottomNavigatonScrean(),
+      home: DetailProductScrean(),
       
     );
   }
