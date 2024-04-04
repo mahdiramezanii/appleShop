@@ -80,9 +80,9 @@ class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
   List<Widget> get_layout() {
     List<Widget> layouts = [
       ProfileScrean(),
-      HomeScrean(),
-      CategoryScrean(),
-      HomeScrean(),
+      const HomeScrean(),
+      const CategoryScrean(),
+      const HomeScrean(),
     ];
 
     return layouts;
