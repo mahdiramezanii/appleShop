@@ -37,6 +37,11 @@ dependencies:
   cupertino_icons: ^1.0.6
   smooth_page_indicator: ^1.1.0
   dotted_line: ^3.2.2
+  flutter_bloc: ^8.1.5
+  get_it: ^7.6.8
+  dio: ^5.4.2+1
+  dartz: ^0.10.1
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
