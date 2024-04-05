@@ -3,20 +3,39 @@ import "package:apple_shop/di/service_locator.dart";
 import "package:apple_shop/util/api_exception.dart";
 import "package:dartz/dartz.dart";
 
+//http://startflutter.ir/api/collections/users/auth-with-password
 abstract class IAuthenticatinRepository {
-  Future<Either<String, String>> register();
+  Future<Either<String, String>> register (String username,String password,String passwordConfirm);
+  Future<Either<String, String>> login(String username, String password);
 }
 
 class AuthenticatinRepository implements IAuthenticatinRepository {
   IAuthenticationDataSource iauth = locator.get();
 
   @override
-  Future<Either<String, String>> register() async {
+  Future<Either<String, String>> register(String username,String password,String passwordConfirm) async {
     try {
-      await iauth.registerUser("mahdghgshgdhi", "12345678", "12345678");
+      await iauth.registerUser(username, password, passwordConfirm);
       return const Right("ثبت نام با موفقیت انجام شد");
     } on ApiExceptiopn catch (ex) {
       return const Left("ثبت نام انجام نشد");
+    }
+  }
+
+  @override
+  Future<Either<String, String>> login(String username, String password) async {
+    try {
+      String token = await iauth.login(username, password);
+
+      if (token.isNotEmpty) {
+        return Right(token);
+      } else {
+        return const Left("خطا");
+      }
+    } on ApiExceptiopn catch (ex) {
+      return Left("${ex.messgae}");
+    } catch (ex) {
+      return const Left("خطا در هنگام ثبت نام");
     }
   }
 }
