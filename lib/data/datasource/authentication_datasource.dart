@@ -45,7 +45,7 @@ class AuthenticationDataSource implements IAuthenticationDataSource {
         return response.data["token"];
       }
       else{
-        return "mahdiii";
+        return "";
       }
     } on DioException catch (ex) {
       throw ApiExceptiopn(

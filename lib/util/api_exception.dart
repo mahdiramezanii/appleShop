@@ -1,4 +1,4 @@
-class ApiExceptiopn {
+class ApiExceptiopn implements Exception{
   int code;
   String messgae;
 
