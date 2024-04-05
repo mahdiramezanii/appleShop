@@ -1,13 +1,17 @@
+import "package:apple_shop/bloc/authentication/auth_bloc.dart";
+import "package:apple_shop/bloc/authentication/auth_event.dart";
+import "package:apple_shop/bloc/authentication/auth_state.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:dartz/dartz.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class LoginScrean extends StatelessWidget {
   LoginScrean({super.key});
 
-  final TextEditingController _usernameTextController=TextEditingController();
-  final TextEditingController _passwordTextController=TextEditingController();
+  final TextEditingController _usernameTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,18 +94,54 @@ class LoginScrean extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(200, 50),
-                      backgroundColor: MyColors.green,
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      "ورود به حساب کاربری",
-                      style: TextStyle(
-                          fontFamily: "sb", color: Colors.white, fontSize: 18),
-                    ),
-                  )
+                  BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+                    if (state is InitAuthState) {
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(200, 50),
+                          backgroundColor: MyColors.green,
+                        ),
+                        onPressed: () {
+                          BlocProvider.of<AuthBloc>(context).add(
+                            RequestLoginEvent(
+                              username: _usernameTextController.text,
+                              password: _passwordTextController.text,
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "ورود به حساب کاربری",
+                          style: TextStyle(
+                            fontFamily: "sb",
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      );
+                    }
+
+                    if (state is LoadingAuthState) {
+                      return const CircularProgressIndicator();
+                    }
+
+                    if (state is ResponseAuthState){
+
+                      Text widget=Text("");
+
+                      state.response.fold((l) {
+                        widget=Text(l,style: TextStyle(color: Colors.red),);
+
+                      }, (r) {
+
+                        widget=Text(r,style: TextStyle(color: Colors.blue),);
+
+                      });
+
+                      return widget;
+                    }
+
+                    return Text("خطا");
+                  }),
                 ],
               ),
             )
