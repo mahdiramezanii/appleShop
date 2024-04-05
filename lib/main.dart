@@ -2,6 +2,7 @@ import 'package:apple_shop/data/datasource/authentication_datasource.dart';
 import 'package:apple_shop/data/repository/authentication_repository.dart';
 import 'package:apple_shop/di/service_locator.dart';
 import 'package:apple_shop/screan/bootom_navigation.dart';
+import 'package:apple_shop/screan/login_screan.dart';
 import 'package:apple_shop/screan/order_screan.dart';
 import 'package:apple_shop/util/auth_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,40 +21,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                final IAuthenticatinRepository auth = locator.get();
-                var either = await auth.login("taham", "12345678");
-
-              },
-              child: Text("Login"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-               
-                AuthManager.logout();
-              },
-              child: Text("LogOut"),
-              
-            ),
-            ValueListenableBuilder(
-                valueListenable: AuthManager.changeAuth,
-                builder: (context, value, child) {
-                  if (value == null) {
-                    return Text("شما لاگین نیستید");
-                  } else {
-                    return Text("شما لاگین هستید");
-                  }
-                })
-          ],
-        )),
-      ),
+    return const  MaterialApp(
+      home:LoginScrean()
     );
   }
 }
