@@ -18,14 +18,7 @@ class BottomNavigatonScrean extends StatefulWidget {
 class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
   var _selectedIndex = 3;
 
-  @override
-  void initState() {
-    super.initState();
 
-    final auth = AuthenticationDataSource();
-
-    auth.registerUser("megtr", "12345678", "12345678");
-  }
 
   @override
   Widget build(BuildContext context) {
