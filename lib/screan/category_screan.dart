@@ -1,4 +1,6 @@
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/data/repository/category_repository.dart";
+import "package:apple_shop/di/service_locator.dart";
 import "package:flutter/material.dart";
 
 class CategoryScrean extends StatelessWidget {
@@ -44,6 +46,24 @@ class CategoryScrean extends StatelessWidget {
                       Spacer()
                     ],
                   ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: ElevatedButton(
+                onPressed: () async {
+
+                ICategoryRepository _test=locator.get();
+
+                var response=await _test.getCategoryItem();
+
+                response.fold((l) => print(l), (r) => print(r));
+
+                },
+                child: const Text(
+                  "گرفتن دیتا",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 20, fontFamily: "sm"),
                 ),
               ),
             ),
