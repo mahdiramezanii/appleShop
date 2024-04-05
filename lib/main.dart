@@ -23,8 +23,11 @@ class MyApp extends StatelessWidget {
           child: ElevatedButton(
               onPressed: () async {
                 final IAuthenticatinRepository auth = locator.get();
+                final IAuthenticationDataSource i=locator.get();
 
-               var either= await  auth.register();
+
+
+               var either= await auth.login("taham","12345678");
 
                either.fold((l) {
 
