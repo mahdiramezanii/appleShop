@@ -1,3 +1,4 @@
+import 'package:apple_shop/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import "package:cached_network_image/cached_network_image.dart";
 import 'package:flutter/material.dart';
@@ -16,16 +17,21 @@ class CashNetworkImage extends StatelessWidget {
           return SpinKitCircle(
             itemBuilder: (BuildContext context, int index) {
               return const DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.grey
-                ),
+                decoration: BoxDecoration(color: Colors.grey),
               );
             },
           );
         },
         errorWidget: (context, url, error) {
           return Container(
-            color: Colors.red,
+            color: MyColors.grey,
+            child: SpinKitCircle(
+              itemBuilder: (BuildContext context, int index) {
+                return const DecoratedBox(
+                  decoration: BoxDecoration(color: Colors.white),
+                );
+              },
+            ),
           );
         },
       ),

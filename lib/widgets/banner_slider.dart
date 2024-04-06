@@ -1,8 +1,14 @@
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/data/models/banner_model.dart";
+import "package:apple_shop/widgets/cashNetwork.dart";
 import "package:flutter/material.dart";
 import "package:smooth_page_indicator/smooth_page_indicator.dart";
 
+// ignore: must_be_immutable
 class BannerSlider extends StatelessWidget {
+  BannerSlider({super.key, this.response});
+  List<BannerModel>? response;
+
   var controller = PageController(viewportFraction: 0.8);
   @override
   Widget build(BuildContext context) {
@@ -12,6 +18,7 @@ class BannerSlider extends StatelessWidget {
         child: PageView.builder(
           scrollDirection: Axis.horizontal,
           controller: controller,
+          itemCount: response?.length ?? 1,
           itemBuilder: (context, index) {
             return Container(
               margin: const EdgeInsets.all(8),
@@ -20,14 +27,7 @@ class BannerSlider extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: const ClipRRect(
-                child: FittedBox(
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/images/header_banner.png"),
-                  ),
-                ),
-              ),
+              child: CashNetworkImage(url: response?[index].thumbnail ?? ""),
             );
           },
         ),
@@ -36,7 +36,7 @@ class BannerSlider extends StatelessWidget {
         bottom: 17,
         child: SmoothPageIndicator(
           controller: controller, // PageController
-          count: 6,
+          count: 3 ?? 1,
           effect: const ExpandingDotsEffect(
             dotColor: Colors.white,
             dotWidth: 10,
