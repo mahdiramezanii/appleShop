@@ -18,7 +18,8 @@ class BannerModel {
       categoryId: jsonObject["categoryId"],
       collectionId: jsonObject["collectionId"],
       id: jsonObject["id"],
-      thumbnail: jsonObject["thumbnail"],
+      thumbnail:
+          "https://startflutter.ir/api/files/${jsonObject["collectionId"]}/${jsonObject["id"]}/${jsonObject["thumbnail"]}",
       collectionName: jsonObject["collectionName"],
     );
   }
