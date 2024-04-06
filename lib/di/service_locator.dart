@@ -1,4 +1,6 @@
 import 'package:apple_shop/data/datasource/authentication_datasource.dart';
+import 'package:apple_shop/data/datasource/banner_datasource.dart';
+import 'package:apple_shop/data/datasource/banner_repository.dart';
 import 'package:apple_shop/data/datasource/category_data_source.dart';
 import 'package:apple_shop/data/repository/authentication_repository.dart';
 import 'package:apple_shop/data/repository/category_repository.dart';
@@ -18,14 +20,13 @@ Future<void> initLocator() async {
       () => AuthenticationDataSource());
 
   locator.registerFactory<ICategoryDataSource>(() => CategoryData());
+  locator.registerFactory<IBannerDataSource>(() => BannerRemoteDataSource());
 
   //Repository Resource
-
   locator.registerFactory<IAuthenticatinRepository>(
       () => AuthenticatinRepository());
-
   locator.registerFactory<ICategoryRepository>(() => CategoryRepository());
-
+  locator.registerFactory<IBannerRepository>(() => BannerRemoteRepository());
   //components
   locator.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
