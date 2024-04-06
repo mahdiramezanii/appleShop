@@ -19,9 +19,6 @@ class CategoryScrean extends StatelessWidget {
       child: MyWidget(),
     );
   }
-
-
-  
 }
 
 class MyWidget extends StatelessWidget {
@@ -73,19 +70,6 @@ class MyWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<CategoryBloc>(context)
-                      .add(GetCategoryEvent());
-                },
-                child: const Text(
-                  "گرفتن دیتا",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 20, fontFamily: "sm"),
-                ),
-              ),
-            ),
             BlocBuilder<CategoryBloc, CategoryState>(
                 builder: ((context, state) {
               if (state is InitCategoryState) {
@@ -111,6 +95,23 @@ class MyWidget extends StatelessWidget {
                   test = r;
                 });
 
+                return SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return CashNetworkImage(url: test[index].thumbnail);
+                    }, childCount: test.length),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                    ),
+                  ),
+                );
+              }
+
+              if (state is LoadDataCategoryState) {
                 return SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   sliver: SliverGrid(
