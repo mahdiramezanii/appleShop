@@ -19,6 +19,9 @@ class CategoryScrean extends StatelessWidget {
       child: MyWidget(),
     );
   }
+
+
+  
 }
 
 class MyWidget extends StatelessWidget {
@@ -28,6 +31,7 @@ class MyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<CategoryBloc>(context).add(GetCategoryEvent());
     return SafeArea(
       child: Scaffold(
         backgroundColor: MyColors.white,
@@ -100,7 +104,7 @@ class MyWidget extends StatelessWidget {
                   ),
                 );
               }
-              if (state is ResponseCategoryState)  {
+              if (state is ResponseCategoryState) {
                 var respnse = state.response;
 
                 respnse.fold((l) => print(l), (r) {
