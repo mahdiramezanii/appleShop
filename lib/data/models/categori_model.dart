@@ -1,4 +1,3 @@
-
 class Category {
   String collectionId;
   String collectionName;
@@ -18,13 +17,14 @@ class Category {
     required this.id,
   });
 
-  factory Category.fromJson(Map<String,dynamic>jsonObject) {
+  factory Category.fromJson(Map<String, dynamic> jsonObject) {
     return Category(
       collectionId: jsonObject["collectionId"],
       collectionName: jsonObject["collectionName"],
       color: jsonObject["color"],
       icon: jsonObject["icon"],
-      thumbnail: jsonObject["thumbnail"],
+      thumbnail:
+          "https://startflutter.ir/api/files/${jsonObject["collectionId"]}/${jsonObject["id"]}/${jsonObject["thumbnail"]}",
       title: jsonObject["title"],
       id: jsonObject["id"],
     );

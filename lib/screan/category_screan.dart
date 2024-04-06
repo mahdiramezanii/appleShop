@@ -1,10 +1,30 @@
+import "package:apple_shop/bloc/category/category_bloc.dart";
+import "package:apple_shop/bloc/category/category_event.dart";
+import "package:apple_shop/bloc/category/category_state.dart";
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/data/models/categori_model.dart";
 import "package:apple_shop/data/repository/category_repository.dart";
 import "package:apple_shop/di/service_locator.dart";
+import "package:apple_shop/widgets/cashNetwork.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class CategoryScrean extends StatelessWidget {
-  const CategoryScrean({super.key});
+  List<Category> test = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => CategoryBloc(),
+      child: MyWidget(),
+    );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  MyWidget({super.key});
+
+  List<Category> test = [];
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +71,9 @@ class CategoryScrean extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: ElevatedButton(
-                onPressed: () async {
-
-                ICategoryRepository _test=locator.get();
-
-                var response=await _test.getCategoryItem();
-
-                response.fold((l) => print(l), (r) => print(r));
-
+                onPressed: () {
+                  BlocProvider.of<CategoryBloc>(context)
+                      .add(GetCategoryEvent());
                 },
                 child: const Text(
                   "گرفتن دیتا",
@@ -67,27 +82,51 @@ class CategoryScrean extends StatelessWidget {
                 ),
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/category_item.png"),
-                        fit: BoxFit.cover,
-                      ),
+            BlocBuilder<CategoryBloc, CategoryState>(
+                builder: ((context, state) {
+              if (state is InitCategoryState) {
+                return SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return CashNetworkImage(url: test[index].thumbnail);
+                    }, childCount: test.length),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
                     ),
-                  );
-                }),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
-                ),
-              ),
-            )
+                  ),
+                );
+              }
+              if (state is ResponseCategoryState)  {
+                var respnse = state.response;
+
+                respnse.fold((l) => print(l), (r) {
+                  test = r;
+                });
+
+                return SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return CashNetworkImage(url: test[index].thumbnail);
+                    }, childCount: test.length),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                    ),
+                  ),
+                );
+              } else {
+                return const SliverToBoxAdapter(
+                  child: Text("sssfgfg"),
+                );
+              }
+            }))
           ],
         ),
       ),
