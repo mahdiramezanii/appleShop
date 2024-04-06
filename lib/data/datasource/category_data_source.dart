@@ -25,7 +25,7 @@ class CategoryData extends ICategoryDataSource {
           code: ex.response!.statusCode!,
           messgae: ex.response!.data["message"]);
     } catch (ex) {
-      print(ex);
+  
       throw ApiExceptiopn(code: 0, messgae: "خطا محتوای متنی ندارد");
     }
   }

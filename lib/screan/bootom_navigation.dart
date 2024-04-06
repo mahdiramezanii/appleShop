@@ -85,7 +85,7 @@ class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
     List<Widget> layouts = [
       ProfileScrean(),
       const OrderScrean(),
-      const CategoryScrean(),
+       CategoryScrean(),
       const HomeScrean(),
     ];
 
