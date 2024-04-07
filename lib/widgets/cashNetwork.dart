@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CashNetworkImage extends StatelessWidget {
-  CashNetworkImage({super.key, required this.url});
-  String? url;
+  CashNetworkImage( {super.key, required this.url,required this.radius});
+  String url;
+  double radius;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
+      borderRadius: BorderRadius.circular(radius),
       child: CachedNetworkImage(
         imageUrl: url ?? "",
         placeholder: (context, url) {

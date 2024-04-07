@@ -22,7 +22,7 @@ class Category {
       collectionId: jsonObject["collectionId"],
       collectionName: jsonObject["collectionName"],
       color: jsonObject["color"],
-      icon: jsonObject["icon"],
+      icon:"https://startflutter.ir/api/files/${jsonObject["collectionId"]}/${jsonObject["id"]}/${jsonObject["icon"]}",
       thumbnail:
           "https://startflutter.ir/api/files/${jsonObject["collectionId"]}/${jsonObject["id"]}/${jsonObject["thumbnail"]}",
       title: jsonObject["title"],
