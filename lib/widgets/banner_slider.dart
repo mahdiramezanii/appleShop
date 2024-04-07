@@ -27,7 +27,7 @@ class BannerSlider extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: CashNetworkImage(url: response?[index].thumbnail ?? ""),
+              child: CashNetworkImage(url: response?[index].thumbnail ?? "",radius: 15,),
             );
           },
         ),

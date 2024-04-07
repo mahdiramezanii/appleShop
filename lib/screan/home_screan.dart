@@ -43,186 +43,190 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.white,
-      body: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            sliver: SliverToBoxAdapter(child: Herader_search()),
-          ),
-          BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-            if (state is InitHomeState) {
-              return SliverToBoxAdapter(
-                child: BannerSlider(),
-              );
-            }
-            if (state is LodingBannerHomeState) {
-              return SliverToBoxAdapter(
-                child: BannerSlider(),
-              );
-            }
-            if (state is ResponseBannerHomeState) {
-              var response = state.response;
-              // ignore: void_checks
-              return response.fold((l) {
-                return SliverToBoxAdapter(
+        backgroundColor: MyColors.white,
+        body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+          return CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                sliver: SliverToBoxAdapter(child: Herader_search()),
+              ),
+              if (state is InitHomeState) ...[
+                SliverToBoxAdapter(
                   child: BannerSlider(),
-                );
-              }, (r) {
-                return SliverToBoxAdapter(
-                  child: BannerSlider(
-                    response: r,
-                  ),
-                );
-              });
-            }
-            return const SliverToBoxAdapter(
-              child: Text("lkhlh"),
-            );
-          }),
-          SliverPadding(
-            padding: const EdgeInsets.only(right: 20, top: 20),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Text(
-                      "دسته بندی",
-                      style: TextStyle(fontFamily: "sm", color: MyColors.grey),
+                )
+              ],
+              if (state is LodingBannerHomeState) ...[
+                SliverToBoxAdapter(
+                  child: BannerSlider(),
+                )
+              ],
+              if (state is ResponseBannerHomeState) ...[
+                // ignore: void_checks
+                state.response.fold((l) {
+                  return SliverToBoxAdapter(
+                    child: BannerSlider(),
+                  );
+                }, (r) {
+                  return SliverToBoxAdapter(
+                    child: BannerSlider(
+                      response: r,
+                      
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 90,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        itemBuilder: (BuildContext context, int index) {
-                          return CategoryHorizontalItem(index);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(top: 30, right: 20),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  const Row(
+                  );
+                })
+              ],
+              SliverPadding(
+                padding: const EdgeInsets.only(right: 20, top: 20),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Image(image: AssetImage("assets/images/left.png")),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "مشاهده همه",
-                        style: TextStyle(
-                            fontFamily: "sm",
-                            fontSize: 12,
-                            color: MyColors.blue),
-                      ),
-                      Spacer(),
-                      Text(
-                        "پرفروش ترین ها",
-                        style: TextStyle(
-                          fontFamily: "sm",
-                          color: MyColors.grey,
+                      const Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Text(
+                          "دسته بندی",
+                          style:
+                              TextStyle(fontFamily: "sm", color: MyColors.grey),
                         ),
                       ),
-                      SizedBox(
-                        width: 20,
-                      )
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      if (state is ResponseBannerHomeState) ...[
+                        state.categoryRespnse.fold((l) {
+                          return SliverToBoxAdapter();
+                        }, (r) {
+                          return SizedBox(
+                            height: 90,
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: r.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return CategoryHorizontalItem(index,r);
+                                },
+                              ),
+                            ),
+                          );
+                        })
+                      ]
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: 10,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: ProdouctItem(),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(top: 30, right: 20, bottom: 30),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  const Row(
+              SliverPadding(
+                padding: const EdgeInsets.only(top: 30, right: 20),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
                     children: [
+                      const Row(
+                        children: [
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Image(image: AssetImage("assets/images/left.png")),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            "مشاهده همه",
+                            style: TextStyle(
+                                fontFamily: "sm",
+                                fontSize: 12,
+                                color: MyColors.blue),
+                          ),
+                          Spacer(),
+                          Text(
+                            "پرفروش ترین ها",
+                            style: TextStyle(
+                              fontFamily: "sm",
+                              color: MyColors.grey,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       SizedBox(
-                        width: 30,
-                      ),
-                      Image(image: AssetImage("assets/images/left.png")),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "مشاهده همه",
-                        style: TextStyle(
-                            fontFamily: "sm",
-                            fontSize: 12,
-                            color: MyColors.blue),
-                      ),
-                      Spacer(),
-                      Text(
-                        "پر بازدیدترین ها",
-                        style: TextStyle(
-                          fontFamily: "sm",
-                          color: MyColors.grey,
+                        height: 200,
+                        child: ListView.builder(
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: ProdouctItem(),
+                            );
+                          },
                         ),
                       ),
-                      SizedBox(
-                        width: 20,
-                      )
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: 10,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: ProdouctItem(),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
+              SliverPadding(
+                padding: const EdgeInsets.only(top: 30, right: 20, bottom: 30),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      const Row(
+                        children: [
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Image(image: AssetImage("assets/images/left.png")),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            "مشاهده همه",
+                            style: TextStyle(
+                                fontFamily: "sm",
+                                fontSize: 12,
+                                color: MyColors.blue),
+                          ),
+                          Spacer(),
+                          Text(
+                            "پر بازدیدترین ها",
+                            style: TextStyle(
+                              fontFamily: "sm",
+                              color: MyColors.grey,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: ProdouctItem(),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        }));
   }
 }
