@@ -5,6 +5,7 @@ import 'package:apple_shop/data/datasource/category_data_source.dart';
 import 'package:apple_shop/data/datasource/product_data_source.dart';
 import 'package:apple_shop/data/repository/authentication_repository.dart';
 import 'package:apple_shop/data/repository/category_repository.dart';
+import 'package:apple_shop/data/repository/product_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +29,7 @@ Future<void> initLocator() async {
       () => AuthenticatinRepository());
   locator.registerFactory<ICategoryRepository>(() => CategoryRepository());
   locator.registerFactory<IBannerRepository>(() => BannerRemoteRepository());
+  locator.registerFactory<IProductRepository>(() =>ProductRemoteRepository() );
   //components
   locator.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
