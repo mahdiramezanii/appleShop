@@ -3,11 +3,11 @@ class Product {
   String collectionId;
   String collectionName;
   String description;
-  String discount_price;
+  int discount_price;
   String name;
   String popularity;
-  String price;
-  String quantity;
+  int price;
+  int quantity;
   String thumbnail;
   String category;
 

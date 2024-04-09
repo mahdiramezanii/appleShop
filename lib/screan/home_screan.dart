@@ -4,12 +4,14 @@ import "package:apple_shop/bloc/home/home_state.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/repository/banner_repository.dart";
 import "package:apple_shop/data/models/banner_model.dart";
+import "package:apple_shop/data/repository/product_repository.dart";
 import "package:apple_shop/di/service_locator.dart";
 import "package:apple_shop/widgets/banner_slider.dart";
 import "package:apple_shop/widgets/homeWidgets.dart";
 import "package:apple_shop/widgets/prodoct_item.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class HomeScrean extends StatelessWidget {
@@ -72,7 +74,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                   return SliverToBoxAdapter(
                     child: BannerSlider(
                       response: r,
-                      
                     ),
                   );
                 })
@@ -106,7 +107,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: r.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return CategoryHorizontalItem(index,r);
+                                  return CategoryHorizontalItem(index, r);
                                 },
                               ),
                             ),
@@ -154,29 +155,40 @@ class _HomeWidgetState extends State<HomeWidget> {
                       const SizedBox(
                         height: 20,
                       ),
-                      SizedBox(
-                        height: 200,
-                        child: ListView.builder(
-                          itemCount: 10,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: ProdouctItem(),
-                            );
-                          },
-                        ),
-                      ),
+                      if (state is ResponseBannerHomeState) ...[
+                        state.prodoct.fold((l) {
+                          return const Text("null");
+                        }, (product) {
+                          return Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                itemCount: product.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: ProdouctItem(
+                                      product[index],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          );
+                        })
+                      ],
                     ],
                   ),
                 ),
               ),
-              SliverPadding(
-                padding: const EdgeInsets.only(top: 30, right: 20, bottom: 30),
+              const SliverPadding(
+                padding: EdgeInsets.only(top: 30, right: 20, bottom: 30),
                 sliver: SliverToBoxAdapter(
                   child: Column(
                     children: [
-                      const Row(
+                      Row(
                         children: [
                           SizedBox(
                             width: 30,
@@ -205,22 +217,22 @@ class _HomeWidgetState extends State<HomeWidget> {
                           )
                         ],
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 20,
                       ),
-                      SizedBox(
-                        height: 200,
-                        child: ListView.builder(
-                          itemCount: 10,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: ProdouctItem(),
-                            );
-                          },
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 200,
+                      //   child: ListView.builder(
+                      //     itemCount: 10,
+                      //     scrollDirection: Axis.horizontal,
+                      //     itemBuilder: (BuildContext context, int index) {
+                      //       return Padding(
+                      //         padding: const EdgeInsets.only(left: 20),
+                      //         child: ProdouctItem(),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
