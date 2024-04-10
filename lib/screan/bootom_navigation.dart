@@ -1,6 +1,7 @@
 import "dart:ui";
 
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/data/datasource/authentication_datasource.dart";
 import "package:apple_shop/screan/category_screan.dart";
 import "package:apple_shop/screan/home_screan.dart";
 import "package:apple_shop/screan/order_screan.dart";
@@ -16,6 +17,8 @@ class BottomNavigatonScrean extends StatefulWidget {
 
 class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
   var _selectedIndex = 3;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +83,10 @@ class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
 
   List<Widget> get_layout() {
     List<Widget> layouts = [
-      
       ProfileScrean(),
       const OrderScrean(),
-      const CategoryScrean(),
+       CategoryScrean(),
       const HomeScrean(),
-      
     ];
 
     return layouts;
