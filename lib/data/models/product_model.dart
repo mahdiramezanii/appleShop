@@ -25,10 +25,9 @@ class Product {
     required this.quantity,
     required this.thumbnail,
     required this.category,
-    
-  }){
-    this.realPrice=(price+this.discount_price);
-    this.percent=((price - realPrice!) / price);
+  }) {
+    this.realPrice = (price + this.discount_price);
+    this.percent = ((realPrice! - price) / price) * 100;
   }
   factory Product.fromJson(Map<String, dynamic> jsonObject) {
     return Product(

@@ -45,11 +45,11 @@ Widget ProdouctItem(Product product) {
                 decoration: BoxDecoration(
                     color: MyColors.red,
                     borderRadius: BorderRadius.circular(15)),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 7, vertical: 1),
+                child:  Padding(
+                  padding:const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
                   child: Text(
-                    "%3",
-                    style: TextStyle(fontFamily: "sm", color: Colors.white),
+                    "%${product.percent!.round()}",
+                    style: const TextStyle(fontFamily: "sm", color: Colors.white),
                   ),
                 ),
               ),
@@ -98,7 +98,7 @@ Widget ProdouctItem(Product product) {
                     ),
                   ),
                   Text(
-                    "${product.discount_price+product.price}",
+                    "${product.realPrice}",
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: "sm",
