@@ -2,10 +2,7 @@ import "package:apple_shop/bloc/home/home_bloc.dart";
 import "package:apple_shop/bloc/home/home_event.dart";
 import "package:apple_shop/bloc/home/home_state.dart";
 import "package:apple_shop/constants/colors.dart";
-import "package:apple_shop/data/repository/banner_repository.dart";
-import "package:apple_shop/data/models/banner_model.dart";
-import "package:apple_shop/data/repository/product_repository.dart";
-import "package:apple_shop/di/service_locator.dart";
+
 import "package:apple_shop/widgets/banner_slider.dart";
 import "package:apple_shop/widgets/homeWidgets.dart";
 import "package:apple_shop/widgets/prodoct_item.dart";
@@ -157,7 +154,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                       if (state is ResponseBannerHomeState) ...[
                         state.prodoct.fold((l) {
-                          return const Text("null");
+                          return  Text(l);
                         }, (product) {
                           return Directionality(
                             textDirection: TextDirection.rtl,
