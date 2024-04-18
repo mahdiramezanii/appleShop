@@ -75,10 +75,10 @@ Widget ProdouctItem(Product product) {
               bottomRight: Radius.circular(15),
             ),
           ),
-          child: const Row(
+          child:  Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(
+              const Text(
                 "تومان",
                 style: TextStyle(
                     fontFamily: "sm", fontSize: 14, color: Colors.white),
@@ -87,8 +87,8 @@ Widget ProdouctItem(Product product) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "134,000,000",
-                    style: TextStyle(
+                    "${product.discount_price}",
+                    style:const  TextStyle(
                       fontFamily: "sm",
                       color: Colors.white,
                       decoration: TextDecoration.lineThrough,
@@ -98,7 +98,7 @@ Widget ProdouctItem(Product product) {
                     ),
                   ),
                   Text(
-                    "110,000,000",
+                    "${product.discount_price+product.price}",
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: "sm",
