@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 abstract class IProductDataSource {
   Future<List<Product>> getProduct();
   Future<List<Product>> getHotestProduct();
-  Future<List<Product>> getMostSeller();
+  Future<List<Product>> getBestSeller();
 }
 
 class ProductRemoteDataSource extends IProductDataSource {
@@ -33,7 +33,7 @@ class ProductRemoteDataSource extends IProductDataSource {
   Future<List<Product>> getHotestProduct() async {
     try {
       Map<String, String> qparam = {
-        "filter": "popularity=Hotest",
+        "filter": 'popularity="Hotest"',
       };
       var response = await _dio.get("collections/products/records",
           queryParameters: qparam);
@@ -46,14 +46,16 @@ class ProductRemoteDataSource extends IProductDataSource {
         code: ex.response!.statusCode!,
         messgae: ex.response!.data["message"],
       );
+    } catch (ex) {
+      throw ApiExceptiopn(code: 0, messgae: "خطای ناشناخته");
     }
   }
 
   @override
-  Future<List<Product>> getMostSeller() async {
+  Future<List<Product>> getBestSeller() async {
     try {
       Map<String, String> qparam = {
-        "filter": "popularity=Hotest",
+        "filter": 'popularity="Best Seller"',
       };
       var response = await _dio.get(
         "collections/products/records",
@@ -69,7 +71,7 @@ class ProductRemoteDataSource extends IProductDataSource {
         messgae: ex.response!.data["message"],
       );
     } catch (ex) {
-      throw ApiExceptiopn(code: 0, messgae: "حطای ناشناخته");
+      throw ApiExceptiopn(code: 0, messgae: "خطای ناشناخته");
     }
   }
 }
