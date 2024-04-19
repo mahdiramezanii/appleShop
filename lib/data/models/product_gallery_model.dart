@@ -10,7 +10,7 @@ class PruductGallery {
   factory PruductGallery.fromJson(Map<String, dynamic> jsonMapObject) {
     return PruductGallery(
       image_url:
-          "https://startflutter.ir/api/files/${jsonMapObject["collectionId"]}/${jsonMapObject["id"]}/${jsonMapObject["thumbnail"]}",
+          "https://startflutter.ir/api/files/${jsonMapObject["collectionId"]}/${jsonMapObject["id"]}/${jsonMapObject["image"]}",
       product_id: jsonMapObject["product_id"],
     );
   }

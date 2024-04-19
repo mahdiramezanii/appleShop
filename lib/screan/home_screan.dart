@@ -1,6 +1,7 @@
 import "package:apple_shop/bloc/home/home_bloc.dart";
 import "package:apple_shop/bloc/home/home_event.dart";
 import "package:apple_shop/bloc/home/home_state.dart";
+import "package:apple_shop/bloc/product/product_bloc.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/screan/detail_prodoct_item.dart";
 
@@ -172,7 +173,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) {
-                                              return DetailProductScrean();
+                                              return BlocProvider(
+                                                create: (context) {
+                                                  return ProductBloc();
+                                                },
+                                                child: DetailProductScrean(),
+                                              );
                                             },
                                           ),
                                         );
@@ -242,13 +248,20 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
-                                    padding: const EdgeInsets.only(left: 20),
+                                    padding: EdgeInsets.only(left: 20),
                                     child: GestureDetector(
-                                      onTap: (){
+                                      onTap: () {
                                         Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (context){
-                                            return DetailProductScrean();
-                                          })
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return BlocProvider(
+                                                create: (context) {
+                                                  return ProductBloc();
+                                                },
+                                                child: DetailProductScrean(),
+                                              );
+                                            },
+                                          ),
                                         );
                                       },
                                       child: ProdouctItem(
