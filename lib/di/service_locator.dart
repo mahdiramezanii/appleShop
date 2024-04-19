@@ -23,6 +23,7 @@ Future<void> initLocator() async {
   locator.registerFactory<ICategoryDataSource>(() => CategoryData());
   locator.registerFactory<IBannerDataSource>(() => BannerRemoteDataSource());
   locator.registerSingleton<IProductDataSource>(ProductRemoteDataSource());
+  
 
   //Repository Resource
   locator.registerFactory<IAuthenticatinRepository>(
