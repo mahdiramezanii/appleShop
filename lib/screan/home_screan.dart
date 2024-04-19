@@ -2,6 +2,7 @@ import "package:apple_shop/bloc/home/home_bloc.dart";
 import "package:apple_shop/bloc/home/home_event.dart";
 import "package:apple_shop/bloc/home/home_state.dart";
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/screan/detail_prodoct_item.dart";
 
 import "package:apple_shop/widgets/banner_slider.dart";
 import "package:apple_shop/widgets/homeWidgets.dart";
@@ -166,8 +167,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
                                     padding: const EdgeInsets.only(left: 20),
-                                    child: ProdouctItem(
-                                      product[index],
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return DetailProductScrean();
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: ProdouctItem(
+                                        product[index],
+                                      ),
                                     ),
                                   );
                                 },
@@ -231,7 +243,18 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
                                     padding: const EdgeInsets.only(left: 20),
-                                    child: ProdouctItem(product[index]),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context){
+                                            return DetailProductScrean();
+                                          })
+                                        );
+                                      },
+                                      child: ProdouctItem(
+                                        product[index],
+                                      ),
+                                    ),
                                   );
                                 },
                               ),
