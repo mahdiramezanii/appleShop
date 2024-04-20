@@ -10,7 +10,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc() : super(ProductDetailIinitState()) {
     on<InitialProductDetailEvent>((event, emit) async {
       emit(ProductDetailLoadingState());
-      var response = await _productRepository.getProductGalleryImage();
+      var response = await _productRepository.getProductGalleryImage(event.product_id);
       emit(ProductDetailResultState(product_image_list: response));
     });
   }
