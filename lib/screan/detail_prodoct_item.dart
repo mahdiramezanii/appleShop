@@ -5,6 +5,7 @@ import "package:apple_shop/bloc/product/product_event.dart";
 import "package:apple_shop/bloc/product/product_state.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/models/product_gallery_model.dart";
+import "package:apple_shop/data/models/product_model.dart";
 import "package:apple_shop/widgets/cashNetwork.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -14,7 +15,8 @@ import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class DetailProductScrean extends StatefulWidget {
-  const DetailProductScrean({super.key});
+  DetailProductScrean(this.product, {super.key});
+  Product product;
 
   @override
   State<DetailProductScrean> createState() => _DetailProductScreanState();
@@ -23,7 +25,9 @@ class DetailProductScrean extends StatefulWidget {
 class _DetailProductScreanState extends State<DetailProductScrean> {
   @override
   void initState() {
-    BlocProvider.of<ProductBloc>(context).add(InitialProductDetailEvent());
+
+    
+    BlocProvider.of<ProductBloc>(context).add(InitialProductDetailEvent(product_id: widget.product.id));
     super.initState();
   }
 
@@ -578,7 +582,7 @@ class CardImage extends StatelessWidget {
                       child: Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: CashNetworkImage(
-                            url: imageGalerryList[0].image_url,
+                            url: imageGalerryList[0].image_url ?? "",
                             radius: 0,
                           )),
                     ),
@@ -607,7 +611,7 @@ class CardImage extends StatelessWidget {
                       child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: CashNetworkImage(
-                            url: imageGalerryList[index].image_url,
+                            url: imageGalerryList[index].image_url ?? "",
                             radius: 15,
                           )),
                     );

@@ -5,16 +5,16 @@ import 'package:apple_shop/util/api_exception.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class IProductDetailRespotory {
-  Future<Either<String, List<PruductGallery>>> getProductGalleryImage();
+  Future<Either<String, List<PruductGallery>>> getProductGalleryImage(String product_id);
 }
 
 class ProductDetailRepository extends IProductDetailRespotory {
   final IProductDetailDataSource _productData = locator.get();
 
   @override
-  Future<Either<String, List<PruductGallery>>> getProductGalleryImage() async {
+  Future<Either<String, List<PruductGallery>>> getProductGalleryImage(String product_id) async {
     try {
-      var response = await _productData.getProductGalleryImage();
+      var response = await _productData.getProductGalleryImage(product_id);
 
       return Right(response);
     } on ApiExceptiopn catch (ex) {

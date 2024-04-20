@@ -177,7 +177,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 create: (context) {
                                                   return ProductBloc();
                                                 },
-                                                child: DetailProductScrean(),
+                                                child: DetailProductScrean(
+                                                    product[index]),
                                               );
                                             },
                                           ),
@@ -258,7 +259,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 create: (context) {
                                                   return ProductBloc();
                                                 },
-                                                child: DetailProductScrean(),
+                                                child: DetailProductScrean(
+                                                    product[index]),
                                               );
                                             },
                                           ),
