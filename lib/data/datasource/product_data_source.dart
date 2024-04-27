@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 
 abstract class IProductDataSource {
   Future<List<Product>> getProduct();
+  Future<List<Product>> getHotestProduct();
+  Future<List<Product>> getBestSeller();
 }
 
 class ProductRemoteDataSource extends IProductDataSource {
@@ -17,6 +19,52 @@ class ProductRemoteDataSource extends IProductDataSource {
       return response.data["items"]
           .map<Product>((jsonObject) => Product.fromJson(jsonObject))
           .toList();
+    } on DioException catch (ex) {
+      throw ApiExceptiopn(
+        code: ex.response!.statusCode!,
+        messgae: ex.response!.data["message"],
+      );
+    } catch (ex) {
+      throw ApiExceptiopn(code: 0, messgae: "خطای ناشناخته");
+    }
+  }
+
+  @override
+  Future<List<Product>> getHotestProduct() async {
+    try {
+      Map<String, String> qparam = {
+        "filter": 'popularity="Hotest"',
+      };
+      var response = await _dio.get("collections/products/records",
+          queryParameters: qparam);
+
+      return response.data["items"].map<Product>((jsonObject) {
+        return Product.fromJson(jsonObject);
+      }).toList();
+    } on DioException catch (ex) {
+      throw ApiExceptiopn(
+        code: ex.response!.statusCode!,
+        messgae: ex.response!.data["message"],
+      );
+    } catch (ex) {
+      throw ApiExceptiopn(code: 0, messgae: "خطای ناشناخته");
+    }
+  }
+
+  @override
+  Future<List<Product>> getBestSeller() async {
+    try {
+      Map<String, String> qparam = {
+        "filter": 'popularity="Best Seller"',
+      };
+      var response = await _dio.get(
+        "collections/products/records",
+        queryParameters: qparam,
+      );
+
+      return response.data["items"].map<Product>((jsonObject) {
+        return Product.fromJson(jsonObject);
+      }).toList();
     } on DioException catch (ex) {
       throw ApiExceptiopn(
         code: ex.response!.statusCode!,

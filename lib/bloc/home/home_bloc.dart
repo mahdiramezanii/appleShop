@@ -16,11 +16,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       var response = await _bannerRemote.getBanner();
       var categoryRespnse = await _category.getCategoryItem();
       var prodoct = await _product.getProduct();
+      var hotestProduct = await _product.getHotedt();
+      var bestSellerProduct = await _product.getBestSeller();
 
       emit(ResponseBannerHomeState(
         response: response,
         categoryRespnse: categoryRespnse,
         prodoct: prodoct,
+        hotestProduct: hotestProduct,
+        bestSellerProduct: bestSellerProduct,
       ));
     });
   }

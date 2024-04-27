@@ -1,11 +1,10 @@
 import "package:apple_shop/bloc/home/home_bloc.dart";
 import "package:apple_shop/bloc/home/home_event.dart";
 import "package:apple_shop/bloc/home/home_state.dart";
+import "package:apple_shop/bloc/product/product_bloc.dart";
 import "package:apple_shop/constants/colors.dart";
-import "package:apple_shop/data/repository/banner_repository.dart";
-import "package:apple_shop/data/models/banner_model.dart";
-import "package:apple_shop/data/repository/product_repository.dart";
-import "package:apple_shop/di/service_locator.dart";
+import "package:apple_shop/screan/detail_prodoct_item.dart";
+
 import "package:apple_shop/widgets/banner_slider.dart";
 import "package:apple_shop/widgets/homeWidgets.dart";
 import "package:apple_shop/widgets/prodoct_item.dart";
@@ -156,8 +155,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                         height: 20,
                       ),
                       if (state is ResponseBannerHomeState) ...[
-                        state.prodoct.fold((l) {
-                          return const Text("null");
+                        state.bestSellerProduct.fold((l) {
+                          return Text(l);
                         }, (product) {
                           return Directionality(
                             textDirection: TextDirection.rtl,
@@ -169,8 +168,25 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
                                     padding: const EdgeInsets.only(left: 20),
-                                    child: ProdouctItem(
-                                      product[index],
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return BlocProvider(
+                                                create: (context) {
+                                                  return ProductBloc();
+                                                },
+                                                child: DetailProductScrean(
+                                                    product[index]),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: ProdouctItem(
+                                        product[index],
+                                      ),
                                     ),
                                   );
                                 },
@@ -183,12 +199,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                   ),
                 ),
               ),
-              const SliverPadding(
-                padding: EdgeInsets.only(top: 30, right: 20, bottom: 30),
+              SliverPadding(
+                padding: const EdgeInsets.only(top: 30, right: 20, bottom: 30),
                 sliver: SliverToBoxAdapter(
                   child: Column(
                     children: [
-                      Row(
+                      const Row(
                         children: [
                           SizedBox(
                             width: 30,
@@ -217,22 +233,50 @@ class _HomeWidgetState extends State<HomeWidget> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      // SizedBox(
-                      //   height: 200,
-                      //   child: ListView.builder(
-                      //     itemCount: 10,
-                      //     scrollDirection: Axis.horizontal,
-                      //     itemBuilder: (BuildContext context, int index) {
-                      //       return Padding(
-                      //         padding: const EdgeInsets.only(left: 20),
-                      //         child: ProdouctItem(),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
+                      if (state is ResponseBannerHomeState) ...{
+                        state.hotestProduct.fold((l) {
+                          return const Text("خطا");
+                        }, (product) {
+                          return Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                itemCount: product.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return BlocProvider(
+                                                create: (context) {
+                                                  return ProductBloc();
+                                                },
+                                                child: DetailProductScrean(
+                                                    product[index]),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: ProdouctItem(
+                                        product[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          );
+                        })
+                      }
                     ],
                   ),
                 ),

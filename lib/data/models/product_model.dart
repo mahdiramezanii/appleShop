@@ -10,6 +10,8 @@ class Product {
   int quantity;
   String thumbnail;
   String category;
+  num? percent;
+  int? realPrice;
 
   Product({
     required this.id,
@@ -23,8 +25,10 @@ class Product {
     required this.quantity,
     required this.thumbnail,
     required this.category,
-  });
-
+  }) {
+    this.realPrice = (price + this.discount_price);
+    this.percent = ((realPrice! - price) / price) * 100;
+  }
   factory Product.fromJson(Map<String, dynamic> jsonObject) {
     return Product(
       id: jsonObject["id"],

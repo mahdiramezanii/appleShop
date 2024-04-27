@@ -13,9 +13,14 @@ class ResponseBannerHomeState extends HomeState {
   Either<String, List<BannerModel>> response;
   Either<String, List<Category>> categoryRespnse;
   Either<String, List<Product>> prodoct;
+  Either<String, List<Product>> hotestProduct;
+  Either<String, List<Product>> bestSellerProduct;
+
   ResponseBannerHomeState({
     required this.response,
     required this.categoryRespnse,
     required this.prodoct,
+    required this.hotestProduct,
+    required this.bestSellerProduct,
   });
 }
