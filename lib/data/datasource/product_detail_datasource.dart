@@ -10,7 +10,7 @@ abstract class IProductDetailDataSource {
   Future<List<PruductGallery>> getProductGalleryImage(String product_id);
   Future<List<Varibent>> getVaribent();
   Future<List<VarientType>> getVaribentType();
-  Future<List<ProductVaribent>> getProductVaribentList();
+  Future<List<ProductVaribent>> getProductVaribentListt();
 }
 
 class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
@@ -84,7 +84,7 @@ class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
   }
 
   @override
-  Future<List<ProductVaribent>> getProductVaribentList() async {
+  Future<List<ProductVaribent>> getProductVaribentListt() async {
     List<Varibent> varibent_list = await getVaribent();
     List<VarientType> varibent_type = await getVaribentType();
     List<ProductVaribent> product_varibent = [];

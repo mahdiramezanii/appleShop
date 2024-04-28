@@ -1,7 +1,7 @@
 class Varibent {
   String id;
   String name;
-  String price_change;
+  int price_change;
   String product_id;
   String type_id;
   String value;

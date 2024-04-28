@@ -25,9 +25,8 @@ class DetailProductScrean extends StatefulWidget {
 class _DetailProductScreanState extends State<DetailProductScrean> {
   @override
   void initState() {
-
-    
-    BlocProvider.of<ProductBloc>(context).add(InitialProductDetailEvent(product_id: widget.product.id));
+    BlocProvider.of<ProductBloc>(context)
+        .add(InitialProductDetailEvent(product_id: widget.product.id));
     super.initState();
   }
 
@@ -95,63 +94,15 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     return CardImage(response);
                   }),
                 },
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 30, left: 40, right: 40),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          "انتخاب رنگ",
-                          style: TextStyle(fontFamily: "sb"),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                  color: MyColors.blue,
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                  color: MyColors.red,
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              height: 30,
-                              width: 76,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: const Center(
-                                child: Text(
-                                  "مشکی",
-                                  style: TextStyle(
-                                      color: Colors.white, fontFamily: "sm"),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+               if (state is ProductDetailResultState)...{
+
+                state.productVaribent.fold((l){
+                  return  SliverToBoxAdapter(child: Center(child: Text(l)),);
+                }, (r) {
+                  return  getVarientItem();
+                })
+
+               },
                 SliverToBoxAdapter(
                   child: Padding(
                     padding:
@@ -422,6 +373,64 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
           ),
         );
       },
+    );
+  }
+
+  Widget getVarientItem() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 30, left: 40, right: 40),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text(
+              "انتخاب رنگ",
+              style: TextStyle(fontFamily: "sb"),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                      color: MyColors.blue,
+                      borderRadius: BorderRadius.circular(5)),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                      color: MyColors.red,
+                      borderRadius: BorderRadius.circular(5)),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  height: 30,
+                  width: 76,
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: const Center(
+                    child: Text(
+                      "مشکی",
+                      style: TextStyle(color: Colors.white, fontFamily: "sm"),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
