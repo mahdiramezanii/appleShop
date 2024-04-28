@@ -94,15 +94,16 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     return CardImage(response);
                   }),
                 },
-               if (state is ProductDetailResultState)...{
-
-                state.productVaribent.fold((l){
-                  return  SliverToBoxAdapter(child: Center(child: Text(l)),);
-                }, (r) {
-                  return  getVarientItem();
-                })
-
-               },
+                if (state is ProductDetailResultState) ...{
+                  state.productVaribent.fold((l) {
+                    return SliverToBoxAdapter(
+                      child: Center(child: Text(l)),
+                    );
+                  }, (productVaribent) {
+                    
+                    return getVarientItem();
+                  })
+                },
                 SliverToBoxAdapter(
                   child: Padding(
                     padding:
@@ -377,6 +378,7 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
   }
 
   Widget getVarientItem() {
+    
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.only(top: 30, left: 40, right: 40),
