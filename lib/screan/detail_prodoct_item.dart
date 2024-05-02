@@ -6,6 +6,7 @@ import "package:apple_shop/bloc/product/product_state.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/models/product_gallery_model.dart";
 import "package:apple_shop/data/models/product_model.dart";
+import "package:apple_shop/data/models/product_varibent.dart";
 import "package:apple_shop/widgets/cashNetwork.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -101,7 +102,7 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     );
                   }, (productVaribent) {
                     
-                    return getVarientItem();
+                    return getVarientItem(productVaribent);
                   })
                 },
                 SliverToBoxAdapter(
@@ -377,7 +378,7 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
     );
   }
 
-  Widget getVarientItem() {
+  Widget getVarientItem(List<ProductVaribent> productVarient) {
     
     return SliverToBoxAdapter(
       child: Padding(
@@ -385,8 +386,8 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const Text(
-              "انتخاب رنگ",
+             Text(
+              productVarient[0].varibent_type.title,
               style: TextStyle(fontFamily: "sb"),
             ),
             const SizedBox(
