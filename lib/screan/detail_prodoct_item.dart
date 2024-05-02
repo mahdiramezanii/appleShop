@@ -101,7 +101,6 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                       child: Center(child: Text(l)),
                     );
                   }, (productVaribent) {
-                    
                     return getVarientItem(productVaribent);
                   })
                 },
@@ -379,16 +378,15 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
   }
 
   Widget getVarientItem(List<ProductVaribent> productVarient) {
-    
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.only(top: 30, left: 40, right: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-             Text(
+            Text(
               productVarient[0].varibent_type.title,
-              style: TextStyle(fontFamily: "sb"),
+              style: const TextStyle(fontFamily: "sb"),
             ),
             const SizedBox(
               height: 5,
@@ -396,39 +394,7 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                      color: MyColors.blue,
-                      borderRadius: BorderRadius.circular(5)),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                      color: MyColors.red,
-                      borderRadius: BorderRadius.circular(5)),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  height: 30,
-                  width: 76,
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: const Center(
-                    child: Text(
-                      "مشکی",
-                      style: TextStyle(color: Colors.white, fontFamily: "sm"),
-                    ),
-                  ),
-                ),
+                ...ColorVarinetListWidget(productVarient[0]),
               ],
             ),
           ],
@@ -436,6 +402,27 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
       ),
     );
   }
+}
+
+List<Widget> ColorVarinetListWidget(ProductVaribent productVarient) {
+  List<Widget> result = [];
+  for (var item in productVarient.varibent_list) {
+    String color = "FF" + item.value;
+    int hexColor = int.parse(color, radix: 16);
+    var widget = Container(
+      margin: EdgeInsets.only(right: 7),
+      height: 30,
+      width: 30,
+      decoration: BoxDecoration(
+        color: Color(hexColor),
+        borderRadius: BorderRadius.circular(5),
+      ),
+    );
+
+    result.add(widget);
+  }
+
+  return result;
 }
 
 class AddToBacket extends StatelessWidget {
