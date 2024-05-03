@@ -373,29 +373,7 @@ class ColorVarientListView extends StatefulWidget {
 }
 
 class _ColorVarientListViewState extends State<ColorVarientListView> {
-  List<Widget> result = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    for (var item in widget.productVarient.varibent_list) {
-      String color = "FF" + item.value;
-      int hexColor = int.parse(color, radix: 16);
-      var widget = Container(
-        margin: EdgeInsets.only(right: 7),
-        height: 30,
-        width: 30,
-        decoration: BoxDecoration(
-          color: Color(hexColor),
-          borderRadius: BorderRadius.circular(5),
-        ),
-      );
-
-      result.add(widget);
-    }
-  }
-
+  var _selected_index = 0;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -403,10 +381,46 @@ class _ColorVarientListViewState extends State<ColorVarientListView> {
       child: SizedBox(
         height: 26,
         child: ListView.builder(
-          itemCount: result.length,
+          itemCount: widget.productVarient.varibent_list.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            return result[index];
+            String color =
+                "FF" + widget.productVarient.varibent_list[index].value;
+            int hexColor = int.parse(color, radix: 16);
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selected_index = index;
+                });
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 400),
+                width: _selected_index == index ? 60 : 30,
+                child: Container(
+                  margin: const EdgeInsets.only(right: 7),
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: Color(hexColor),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: _selected_index == index
+                      ? Center(
+                          child: Text(
+                            widget.productVarient.varibent_list[index].name,
+                            style: TextStyle(
+                              fontFamily: "sm",
+                              color: widget.productVarient.varibent_list[index]
+                                          .name ==
+                                      "سیاه"
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        )
+                      : const Text(""),
+                ),
+              ),
+            );
           },
         ),
       ),
@@ -424,35 +438,6 @@ class StoragesVaribentListView extends StatefulWidget {
 }
 
 class _StoragesVaribentListViewState extends State<StoragesVaribentListView> {
-  List<Widget> result = [];
-
-  @override
-  void initState() {
-    for (var item in widget.productVaribent.varibent_list) {
-      var widget = Container(
-        height: 30,
-        width: 76,
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-            color: MyColors.blue,
-          ),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Center(
-          child: Text(
-            item.value,
-            style: const TextStyle(
-              color: Colors.black,
-              fontFamily: "sm",
-            ),
-          ),
-        ),
-      );
-    }
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -460,10 +445,29 @@ class _StoragesVaribentListViewState extends State<StoragesVaribentListView> {
       child: SizedBox(
         height: 26,
         child: ListView.builder(
-          itemCount: result.length,
+          itemCount: widget.productVaribent.varibent_list.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            return result[index];
+            return Container(
+              height: 30,
+              width: 76,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: MyColors.blue,
+                ),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Center(
+                child: Text(
+                  widget.productVaribent.varibent_type.title,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: "sm",
+                  ),
+                ),
+              ),
+            );
           },
         ),
       ),
