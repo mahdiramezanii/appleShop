@@ -107,7 +107,7 @@ class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
 
   @override
   Future<Category> getCategory(String category_id) async {
-    Map<String, String> qparam = {"filter": '"id=${category_id}"'};
+    Map<String, String> qparam = {"filter": 'id="${category_id}"'};
 
     try {
       var response = await _dio.get(

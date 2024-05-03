@@ -5,8 +5,10 @@ abstract class ProductEvent {}
 
 class InitialProductDetailEvent extends ProductEvent {
   String product_id;
+  String category_id;
 
   InitialProductDetailEvent({
     required this.product_id,
+    required this.category_id
   });
 }
