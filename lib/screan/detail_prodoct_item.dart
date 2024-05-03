@@ -391,12 +391,9 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
             const SizedBox(
               height: 5,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ...ColorVarinetListWidget(productVarient[0]),
-              ],
-            ),
+            ColorVarientListView(
+              productVarient: productVarient[0],
+            )
           ],
         ),
       ),
@@ -404,25 +401,113 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
   }
 }
 
-List<Widget> ColorVarinetListWidget(ProductVaribent productVarient) {
-  List<Widget> result = [];
-  for (var item in productVarient.varibent_list) {
-    String color = "FF" + item.value;
-    int hexColor = int.parse(color, radix: 16);
-    var widget = Container(
-      margin: EdgeInsets.only(right: 7),
-      height: 30,
-      width: 30,
-      decoration: BoxDecoration(
-        color: Color(hexColor),
-        borderRadius: BorderRadius.circular(5),
-      ),
-    );
+// ignore: must_be_immutable
+class ColorVarientListView extends StatefulWidget {
+  ProductVaribent productVarient;
 
-    result.add(widget);
+  ColorVarientListView({super.key, required this.productVarient});
+
+  @override
+  State<ColorVarientListView> createState() => _ColorVarientListViewState();
+}
+
+class _ColorVarientListViewState extends State<ColorVarientListView> {
+  List<Widget> result = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    for (var item in widget.productVarient.varibent_list) {
+      String color = "FF" + item.value;
+      int hexColor = int.parse(color, radix: 16);
+      var widget = Container(
+        margin: EdgeInsets.only(right: 7),
+        height: 30,
+        width: 30,
+        decoration: BoxDecoration(
+          color: Color(hexColor),
+          borderRadius: BorderRadius.circular(5),
+        ),
+      );
+
+      result.add(widget);
+    }
   }
 
-  return result;
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: SizedBox(
+        height: 26,
+        child: ListView.builder(
+          itemCount: result.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context, int index) {
+            return result[index];
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class StoragesVaribentListView extends StatefulWidget {
+  ProductVaribent productVaribent;
+  StoragesVaribentListView({super.key, required this.productVaribent});
+
+  @override
+  State<StoragesVaribentListView> createState() =>
+      _StoragesVaribentListViewState();
+}
+
+class _StoragesVaribentListViewState extends State<StoragesVaribentListView> {
+  List<Widget> result = [];
+
+  @override
+  void initState() {
+    for (var item in widget.productVaribent.varibent_list) {
+      var widget = Container(
+        height: 30,
+        width: 76,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1,
+            color: MyColors.blue,
+          ),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Center(
+          child: Text(
+            item.value,
+            style: const TextStyle(
+              color: Colors.black,
+              fontFamily: "sm",
+            ),
+          ),
+        ),
+      );
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: SizedBox(
+        height: 26,
+        child: ListView.builder(
+          itemCount: result.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context,int index){
+            return result[index];
+          },
+        ),
+      ),
+    );
+  }
 }
 
 class AddToBacket extends StatelessWidget {
