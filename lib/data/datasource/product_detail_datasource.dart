@@ -1,3 +1,4 @@
+import 'package:apple_shop/data/models/categori_model.dart';
 import 'package:apple_shop/data/models/product_gallery_model.dart';
 import 'package:apple_shop/data/models/product_varibent.dart';
 import 'package:apple_shop/data/models/varibent_model.dart';
@@ -11,6 +12,7 @@ abstract class IProductDetailDataSource {
   Future<List<Varibent>> getVaribent();
   Future<List<VarientType>> getVaribentType();
   Future<List<ProductVaribent>> getProductVaribentListt();
+  Future<Category> getCategory(String category_id);
 }
 
 class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
@@ -101,5 +103,29 @@ class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
     }
 
     return product_varibent;
+  }
+
+  @override
+  Future<Category> getCategory(String category_id) async {
+    Map<String, String> qparam = {"filter": '"id=${category_id}"'};
+
+    try {
+      var response = await _dio.get(
+        "collections/category/records",
+        queryParameters: qparam,
+      );
+
+      return Category.fromJson(response.data["items"][0]);
+    } on DioException catch (ex) {
+      throw ApiExceptiopn(
+        code: ex.response!.statusCode!,
+        messgae: ex.response!.data["message"],
+      );
+    } catch (ex) {
+      throw ApiExceptiopn(
+        code: 0,
+        messgae: "خطا محتوای متنی ندارد",
+      );
+    }
   }
 }
