@@ -7,6 +7,7 @@ import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/models/product_gallery_model.dart";
 import "package:apple_shop/data/models/product_model.dart";
 import "package:apple_shop/data/models/product_varibent.dart";
+import "package:apple_shop/data/models/varient_type_model.dart";
 import "package:apple_shop/widgets/cashNetwork.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -101,83 +102,11 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                       child: Center(child: Text(l)),
                     );
                   }, (productVaribent) {
-                    return getVarientItem(productVaribent);
+                    return VarientGeneratorCaontainer(
+                      productVarient: productVaribent,
+                    );
                   })
                 },
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, left: 40, right: 40),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          "انتخاب حافظه داخلی",
-                          style: TextStyle(fontFamily: "sb"),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              height: 30,
-                              width: 76,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: MyColors.blue),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: const Center(
-                                child: Text(
-                                  "512",
-                                  style: TextStyle(
-                                      color: Colors.black, fontFamily: "sm"),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              height: 30,
-                              width: 76,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: MyColors.blue),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: const Center(
-                                child: Text(
-                                  "64",
-                                  style: TextStyle(
-                                      color: Colors.black, fontFamily: "sm"),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              height: 30,
-                              width: 76,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: MyColors.blue),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: const Center(
-                                child: Text(
-                                  "128",
-                                  style: TextStyle(
-                                      color: Colors.black, fontFamily: "sm"),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 SliverToBoxAdapter(
                   child: Padding(
                     padding:
@@ -376,26 +305,58 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
       },
     );
   }
+}
 
-  Widget getVarientItem(List<ProductVaribent> productVarient) {
+class VarientGeneratorCaontainer extends StatelessWidget {
+  List<ProductVaribent> productVarient;
+
+  VarientGeneratorCaontainer({super.key, required this.productVarient});
+  @override
+  Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 30, left: 40, right: 40),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              productVarient[0].varibent_type.title,
-              style: const TextStyle(fontFamily: "sb"),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          for (var product_varient in productVarient) ...{
+            VarientGeneratorChild(
+              productVarient: product_varient,
             ),
-            const SizedBox(
-              height: 5,
-            ),
+          }
+        ],
+      ),
+    );
+  }
+}
+
+class VarientGeneratorChild extends StatelessWidget {
+  ProductVaribent productVarient;
+
+  VarientGeneratorChild({required this.productVarient});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 30, left: 40, right: 40),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            productVarient.varibent_type.title,
+            style: const TextStyle(fontFamily: "sb"),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          if (productVarient.varibent_type.type == VarientTypeEnum.COLOR) ...{
             ColorVarientListView(
-              productVarient: productVarient[0],
+              productVarient: productVarient,
             )
-          ],
-        ),
+          },
+          if (productVarient.varibent_type.type ==
+              VarientTypeEnum.STORAGES) ...{
+            StoragesVaribentListView(productVaribent: productVarient)
+          }
+        ],
       ),
     );
   }
@@ -501,7 +462,7 @@ class _StoragesVaribentListViewState extends State<StoragesVaribentListView> {
         child: ListView.builder(
           itemCount: result.length,
           scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context,int index){
+          itemBuilder: (BuildContext context, int index) {
             return result[index];
           },
         ),
