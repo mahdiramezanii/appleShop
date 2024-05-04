@@ -215,8 +215,9 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                                     height: 26,
                                     width: 26,
                                     decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.circular(5)),
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
                                   ),
                                 ),
                                 Positioned(

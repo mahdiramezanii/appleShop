@@ -76,9 +76,15 @@ class MyWidget extends StatelessWidget {
                 return SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return CashNetworkImage(url: test[index].thumbnail,radius: 0,);
-                    }, childCount: test.length),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return CashNetworkImage(
+                          url: test[index].thumbnail,
+                          radius: 0,
+                        );
+                      },
+                      childCount: test.length,
+                    ),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -99,7 +105,10 @@ class MyWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   sliver: SliverGrid(
                     delegate: SliverChildBuilderDelegate((context, index) {
-                      return CashNetworkImage(url: test[index].thumbnail,radius: 0,);
+                      return CashNetworkImage(
+                        url: test[index].thumbnail,
+                        radius: 0,
+                      );
                     }, childCount: test.length),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -116,7 +125,10 @@ class MyWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   sliver: SliverGrid(
                     delegate: SliverChildBuilderDelegate((context, index) {
-                      return CashNetworkImage(url: test[index].thumbnail,radius: 0,);
+                      return CashNetworkImage(
+                        url: test[index].thumbnail,
+                        radius: 0,
+                      );
                     }, childCount: test.length),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
