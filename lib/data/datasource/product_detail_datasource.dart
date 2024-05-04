@@ -96,10 +96,12 @@ class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
         return element.type_id == type.id;
       }).toList();
 
-      product_varibent.add(ProductVaribent(
-        varibent_list: response,
-        varibent_type: type,
-      ));
+      if (response.length != 0) {
+        product_varibent.add(ProductVaribent(
+          varibent_list: response,
+          varibent_type: type,
+        ));
+      }
     }
 
     return product_varibent;
