@@ -100,13 +100,13 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     ),
                   ),
                 },
-                const SliverToBoxAdapter(
+                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
-                      "2023 SE آیفون",
+                      widget.product.name,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontFamily: "sb", fontSize: 20),
+                      style: const TextStyle(fontFamily: "sb", fontSize: 20),
                     ),
                   ),
                 ),
