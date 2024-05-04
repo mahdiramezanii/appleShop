@@ -74,7 +74,7 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                           state.getCategory.fold((l) {
                             return const Text(
                               "دسته بندی",
-                              style:  TextStyle(
+                              style: TextStyle(
                                 fontFamily: "sb",
                                 fontSize: 16,
                                 color: MyColors.blue,
@@ -100,7 +100,7 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     ),
                   ),
                 },
-                 SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
@@ -165,41 +165,7 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     ),
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, left: 40, right: 40),
-                    child: Container(
-                      width: 340,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: MyColors.grey, width: 1)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          children: [
-                            Image.asset("assets/images/left_shift.png"),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              "مشاهده",
-                              style: TextStyle(
-                                  fontFamily: "sb", color: MyColors.blue),
-                            ),
-                            const Spacer(),
-                            const Text(
-                              "توضیحات محصول",
-                              style: TextStyle(
-                                  color: Colors.black, fontFamily: "sb"),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                ProductDiscription(widget.product),
                 SliverToBoxAdapter(
                   child: Padding(
                     padding:
@@ -330,6 +296,105 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
   }
 }
 
+class ProductDiscription extends StatefulWidget {
+  Product product;
+  ProductDiscription(this.product, {super.key});
+
+  @override
+  State<ProductDiscription> createState() => _ProductDiscriptionState();
+}
+
+class _ProductDiscriptionState extends State<ProductDiscription> {
+  bool _isVisible = false;
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _isVisible = !_isVisible;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 20,
+                left: 40,
+                right: 40,
+              ),
+              child: Container(
+                width: 340,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: MyColors.grey, width: 1),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    children: [
+                      Image.asset("assets/images/left_shift.png"),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Text(
+                        "مشاهده",
+                        style: TextStyle(
+                          fontFamily: "sb",
+                          color: MyColors.blue,
+                        ),
+                      ),
+                      const Spacer(),
+                      const Text(
+                        "توضیحات محصول",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "sb",
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: _isVisible,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 20,
+                left: 40,
+                right: 40,
+              ),
+              child: Container(
+                width: 340,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: MyColors.grey, width: 1),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    widget.product.description,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontFamily: "sm",
+                      fontSize: 16,
+                      height: 1.6,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class VarientGeneratorCaontainer extends StatelessWidget {
   List<ProductVaribent> productVarient;
 
@@ -340,6 +405,7 @@ class VarientGeneratorCaontainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          
           for (var product_varient in productVarient) ...{
             VarientGeneratorChild(
               productVarient: product_varient,
