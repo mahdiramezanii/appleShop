@@ -9,9 +9,9 @@ import 'package:dio/dio.dart';
 
 abstract class IProductDetailDataSource {
   Future<List<PruductGallery>> getProductGalleryImage(String product_id);
-  Future<List<Varibent>> getVaribent();
+  Future<List<Varibent>> getVaribent(String product_id);
   Future<List<VarientType>> getVaribentType();
-  Future<List<ProductVaribent>> getProductVaribentListt();
+  Future<List<ProductVaribent>> getProductVaribentListt(String product_id);
   Future<Category> getCategory(String category_id);
 }
 
@@ -41,9 +41,9 @@ class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
   }
 
   @override
-  Future<List<Varibent>> getVaribent() async {
+  Future<List<Varibent>> getVaribent(product_id) async {
     try {
-      Map<String, String> qparam = {"filter": 'product_id="at0y1gm0t65j62j"'};
+      Map<String, String> qparam = {"filter": 'product_id="$product_id"'};
 
       var response = await _dio.get("collections/variants/records",
           queryParameters: qparam);
@@ -86,8 +86,8 @@ class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
   }
 
   @override
-  Future<List<ProductVaribent>> getProductVaribentListt() async {
-    List<Varibent> varibent_list = await getVaribent();
+  Future<List<ProductVaribent>> getProductVaribentListt(product_id) async {
+    List<Varibent> varibent_list = await getVaribent(product_id);
     List<VarientType> varibent_type = await getVaribentType();
     List<ProductVaribent> product_varibent = [];
 
@@ -107,7 +107,7 @@ class ProductDetailRemoteDatatSource extends IProductDetailDataSource {
 
   @override
   Future<Category> getCategory(String category_id) async {
-    Map<String, String> qparam = {"filter": '"id=${category_id}"'};
+    Map<String, String> qparam = {"filter": 'id="${category_id}"'};
 
     try {
       var response = await _dio.get(

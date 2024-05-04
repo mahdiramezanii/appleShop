@@ -27,8 +27,10 @@ class DetailProductScrean extends StatefulWidget {
 class _DetailProductScreanState extends State<DetailProductScrean> {
   @override
   void initState() {
-    BlocProvider.of<ProductBloc>(context)
-        .add(InitialProductDetailEvent(product_id: widget.product.id));
+    BlocProvider.of<ProductBloc>(context).add(InitialProductDetailEvent(
+      product_id: widget.product.id,
+      category_id: widget.product.category,
+    ));
     super.initState();
   }
 
@@ -48,42 +50,63 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     ),
                   )
                 },
-                SliverToBoxAdapter(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 30),
-                    height: 46,
-                    width: 340,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image(
+                if (state is ProductDetailResultState) ...{
+                  SliverToBoxAdapter(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 30,
+                      ),
+                      height: 46,
+                      width: 340,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const Image(
                             image: AssetImage(
-                                "assets/images/apple_haeder_logo.png")),
-                        Text(
-                          "آیفون",
-                          style: TextStyle(
-                              fontFamily: "sb",
-                              fontSize: 16,
-                              color: MyColors.blue),
-                        ),
-                        Image(
-                            image: AssetImage("assets/images/right_shift.png")),
-                      ],
+                              "assets/images/apple_haeder_logo.png",
+                            ),
+                          ),
+                          state.getCategory.fold((l) {
+                            return const Text(
+                              "دسته بندی",
+                              style:  TextStyle(
+                                fontFamily: "sb",
+                                fontSize: 16,
+                                color: MyColors.blue,
+                              ),
+                            );
+                          }, (r) {
+                            return Text(
+                              r.title,
+                              style: const TextStyle(
+                                fontFamily: "sb",
+                                fontSize: 16,
+                                color: MyColors.blue,
+                              ),
+                            );
+                          }),
+                          const Image(
+                            image: AssetImage(
+                              "assets/images/right_shift.png",
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SliverToBoxAdapter(
+                },
+                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
-                      "2023 SE آیفون",
+                      widget.product.name,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontFamily: "sb", fontSize: 20),
+                      style: const TextStyle(fontFamily: "sb", fontSize: 20),
                     ),
                   ),
                 ),

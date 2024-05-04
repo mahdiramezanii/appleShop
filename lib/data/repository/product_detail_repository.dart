@@ -9,7 +9,7 @@ import 'package:dartz/dartz.dart';
 abstract class IProductDetailRespotory {
   Future<Either<String, List<PruductGallery>>> getProductGalleryImage(
       String product_id);
-  Future<Either<String, List<ProductVaribent>>> getProductVaribentList();
+  Future<Either<String, List<ProductVaribent>>> getProductVaribentList(String product_id);
   Future<Either<String, Category>> getCategory(String category_id);
 }
 
@@ -29,9 +29,9 @@ class ProductDetailRepository extends IProductDetailRespotory {
   }
 
   @override
-  Future<Either<String, List<ProductVaribent>>> getProductVaribentList() async {
+  Future<Either<String, List<ProductVaribent>>> getProductVaribentList(product_id) async {
     try {
-      var response = await _productData.getProductVaribentListt();
+      var response = await _productData.getProductVaribentListt(product_id);
 
       return Right(response);
     } on ApiExceptiopn catch (ex) {
