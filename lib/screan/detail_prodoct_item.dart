@@ -6,6 +6,7 @@ import "package:apple_shop/bloc/product/product_state.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/models/product_gallery_model.dart";
 import "package:apple_shop/data/models/product_model.dart";
+import "package:apple_shop/data/models/product_properties.dart";
 import "package:apple_shop/data/models/product_varibent.dart";
 import "package:apple_shop/data/models/varient_type_model.dart";
 import "package:apple_shop/widgets/cashNetwork.dart";
@@ -130,41 +131,17 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     );
                   })
                 },
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, left: 40, right: 40),
-                    child: Container(
-                      width: 340,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: MyColors.grey, width: 1)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          children: [
-                            Image.asset("assets/images/left_shift.png"),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              "مشاهده",
-                              style: TextStyle(
-                                  fontFamily: "sb", color: MyColors.blue),
-                            ),
-                            const Spacer(),
-                            const Text(
-                              "مشخصات فنی",
-                              style: TextStyle(
-                                  color: Colors.black, fontFamily: "sb"),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                if (state is ProductDetailResultState) ...{
+                  state.getProperties.fold((l) {
+                    return SliverToBoxAdapter(
+                      child: Text(l),
+                    );
+                  }, (properties) {
+                    return ProductProperties(
+                      properties: properties,
+                    );
+                  }),
+                },
                 ProductDiscription(widget.product),
                 SliverToBoxAdapter(
                   child: Padding(
@@ -296,6 +273,99 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
   }
 }
 
+class ProductProperties extends StatefulWidget {
+  List<Properties> properties;
+  ProductProperties({
+    key,
+    required this.properties,
+  });
+
+  @override
+  State<ProductProperties> createState() => _ProductPropertiesState();
+}
+
+class _ProductPropertiesState extends State<ProductProperties> {
+  bool _is_visible = false;
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _is_visible = !_is_visible;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
+              child: Container(
+                width: 340,
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: MyColors.grey, width: 1)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    children: [
+                      Image.asset("assets/images/left_shift.png"),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Text(
+                        "مشاهده",
+                        style:
+                            TextStyle(fontFamily: "sb", color: MyColors.blue),
+                      ),
+                      const Spacer(),
+                      const Text(
+                        "مشخصات فنی",
+                        style: TextStyle(color: Colors.black, fontFamily: "sb"),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: _is_visible,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
+              child: Container(
+                width: 340,
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: MyColors.grey, width: 1)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: ListView.builder(
+                      itemCount: widget.properties.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var properties = widget.properties[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "${properties.value} : ${properties.title}",
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              fontFamily: "sm",
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ProductDiscription extends StatefulWidget {
   Product product;
   ProductDiscription(this.product, {super.key});
@@ -405,7 +475,6 @@ class VarientGeneratorCaontainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          
           for (var product_varient in productVarient) ...{
             VarientGeneratorChild(
               productVarient: product_varient,
