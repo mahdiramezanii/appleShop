@@ -10,7 +10,9 @@ Widget ProdouctItem(Product product) {
     height: 216,
     width: 160,
     decoration: BoxDecoration(
-        color: Colors.white, borderRadius: BorderRadius.circular(15)),
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(15),
+    ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -45,11 +47,13 @@ Widget ProdouctItem(Product product) {
                 decoration: BoxDecoration(
                     color: MyColors.red,
                     borderRadius: BorderRadius.circular(15)),
-                child:  Padding(
-                  padding:const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
                   child: Text(
                     "%${product.percent!.round()}",
-                    style: const TextStyle(fontFamily: "sm", color: Colors.white),
+                    style:
+                        const TextStyle(fontFamily: "sm", color: Colors.white),
                   ),
                 ),
               ),
@@ -67,7 +71,6 @@ Widget ProdouctItem(Product product) {
         ),
         Container(
           height: 53,
-          width: 160,
           decoration: const BoxDecoration(
             color: MyColors.blue,
             borderRadius: BorderRadius.only(
@@ -75,7 +78,7 @@ Widget ProdouctItem(Product product) {
               bottomRight: Radius.circular(15),
             ),
           ),
-          child:  Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Text(
@@ -88,7 +91,7 @@ Widget ProdouctItem(Product product) {
                 children: [
                   Text(
                     "${product.discount_price}",
-                    style:const  TextStyle(
+                    style: const TextStyle(
                       fontFamily: "sm",
                       color: Colors.white,
                       decoration: TextDecoration.lineThrough,

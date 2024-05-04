@@ -106,7 +106,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: r.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return CategoryHorizontalItem(index, r);
+                                  return CategoryHorizontalItem(index, r,context);
                                 },
                               ),
                             ),
