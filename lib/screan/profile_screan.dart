@@ -79,7 +79,8 @@ class ProfileScrean extends StatelessWidget {
                           ),
                         ),
                         child: const Image(
-                            image: AssetImage("assets/images/discount.png")),
+                          image: AssetImage("assets/images/discount.png"),
+                        ),
                       ),
                       const SizedBox(
                         height: 5,
