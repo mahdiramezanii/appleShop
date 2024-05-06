@@ -1,8 +1,10 @@
+import "package:apple_shop/bloc/busket/busket_bloc.dart";
 import "package:apple_shop/bloc/home/home_bloc.dart";
 import "package:apple_shop/bloc/home/home_event.dart";
 import "package:apple_shop/bloc/home/home_state.dart";
 import "package:apple_shop/bloc/product/product_bloc.dart";
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/di/service_locator.dart";
 import "package:apple_shop/screan/detail_prodoct_item.dart";
 
 import "package:apple_shop/widgets/banner_slider.dart";
@@ -106,7 +108,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: r.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return CategoryHorizontalItem(index, r,context);
+                                  return CategoryHorizontalItem(
+                                      index, r, context);
                                 },
                               ),
                             ),
@@ -173,12 +176,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) {
-                                              return BlocProvider(
-                                                create: (context) {
-                                                  return ProductBloc();
-                                                },
+                                              return BlocProvider<
+                                                  BusketBloc>.value(
+                                                value:
+                                                    locator.get<BusketBloc>(),
                                                 child: DetailProductScrean(
-                                                    product[index]),
+                                                  product[index],
+                                                ),
                                               );
                                             },
                                           ),
@@ -255,12 +259,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) {
-                                              return BlocProvider(
-                                                create: (context) {
-                                                  return ProductBloc();
-                                                },
+                                              return BlocProvider<
+                                                  BusketBloc>.value(
+                                                value:
+                                                    locator.get<BusketBloc>(),
                                                 child: DetailProductScrean(
-                                                    product[index]),
+                                                  product[index],
+                                                ),
                                               );
                                             },
                                           ),
