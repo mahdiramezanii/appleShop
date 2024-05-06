@@ -1,5 +1,7 @@
 import 'package:apple_shop/data/datasource/authentication_datasource.dart';
 import 'package:apple_shop/data/datasource/banner_datasource.dart';
+import 'package:apple_shop/data/datasource/busket_datasource.dart';
+import 'package:apple_shop/data/datasource/busket_repository.dart';
 import 'package:apple_shop/data/datasource/product_category_data_source.dart';
 import 'package:apple_shop/data/datasource/product_detail_datasource.dart';
 import 'package:apple_shop/data/repository/banner_repository.dart';
@@ -32,6 +34,7 @@ Future<void> initLocator() async {
   });
 
   locator.registerFactory<IProductCategoryDataSource>(() => ProductCategoryDataSource());
+  locator.registerFactory<IBusketDataSource>(() => BusketDataSource());
 
   //Repository Resource
   locator.registerFactory<IAuthenticatinRepository>(
@@ -41,6 +44,7 @@ Future<void> initLocator() async {
   locator.registerFactory<IProductRepository>(() => ProductRemoteRepository());
   locator.registerFactory<IProductDetailRespotory>(() => ProductDetailRepository());
   locator.registerFactory<IProductCategoryRepostory>(() => ProductCategoryRepository());
+  locator.registerFactory<IBusketRepository>(() => BusketRepository());
   //components
   locator.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
