@@ -1,8 +1,13 @@
+import "package:apple_shop/bloc/busket/busket_bloc.dart";
+import "package:apple_shop/bloc/busket/busket_state.dart";
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/data/models/bucket_model.dart";
+import "package:apple_shop/util/extentions/extentions.dart";
 import "package:dotted_line/dotted_line.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/widgets.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class OrderScrean extends StatelessWidget {
   const OrderScrean({super.key});
@@ -12,74 +17,90 @@ class OrderScrean extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: MyColors.white,
-        body: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 30,
-                    ),
-                    height: 46,
-                    width: 340,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image(
-                          image: AssetImage(
-                            "assets/images/apple_haeder_logo.png",
-                          ),
+        body: BlocBuilder<BusketBloc,BusketState>(
+          builder: (context, state) {
+            return Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 30,
                         ),
-                        Text(
-                          "سبد خرید",
-                          style: TextStyle(
-                            fontFamily: "sb",
-                            fontSize: 18,
-                            color: MyColors.blue,
-                          ),
+                        height: 46,
+                        width: 340,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        SizedBox(
-                          width: 20,
-                        )
-                      ],
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Image(
+                              image: AssetImage(
+                                "assets/images/apple_haeder_logo.png",
+                              ),
+                            ),
+                            Text(
+                              "سبد خرید",
+                              style: TextStyle(
+                                fontFamily: "sb",
+                                fontSize: 18,
+                                color: MyColors.blue,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                   if(state is ResponsebusketState)...{
+
+                    state.response.fold((l){
+
+
+                     return SliverToBoxAdapter(child: Text(l),);
+                      
+                    }, (busketList){
+
+                      return  SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return OrderItemWidget(busketList[index]);
+                        },
+                        childCount: busketList.length,
+                      ),
+                    );
+
+                    })
+                   }
+                  ],
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return OrderItemWidget();
-                    },
-                    childCount: 10,
+                  onPressed: () {},
+                  child: const Text(
+                    "ادامه فرآیند خرید",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontFamily: "sm",
+                    ),
                   ),
                 ),
               ],
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: MyColors.green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed: () {},
-              child: const Text(
-                "ادامه فرآیند خرید",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontFamily: "sm",
-                ),
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -87,7 +108,8 @@ class OrderScrean extends StatelessWidget {
 }
 
 class OrderItemWidget extends StatelessWidget {
-  const OrderItemWidget({
+  Bucket busket;
+  OrderItemWidget(this.busket,{
     super.key,
   });
 
@@ -122,9 +144,9 @@ class OrderItemWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Text(
-                      "گارانتی 18 ماهه مدیا پردازش",
-                      style: TextStyle(
+                     Text(
+                      busket.name,
+                      style:const  TextStyle(
                         fontFamily: "sm",
                         color: MyColors.grey,
                       ),
@@ -160,9 +182,9 @@ class OrderItemWidget extends StatelessWidget {
                             color: MyColors.grey,
                           ),
                         ),
-                        const Text(
-                          "45,000,000",
-                          style: TextStyle(
+                         Text(
+                          "${busket.price}",
+                          style: const TextStyle(
                             fontFamily: "sm",
                             color: MyColors.grey,
                           ),
@@ -178,12 +200,16 @@ class OrderItemWidget extends StatelessWidget {
                     SizedBox(
                       width: 200,
                       child: Wrap(
-                        spacing: 5,
+                        textDirection: TextDirection.rtl,
+                        spacing: 4,
+                        runSpacing: 5,
                         children: [
-                          itemChip(),
-                          itemChip(),
-                          itemChip(),
-                          itemChip(),
+                          itemChip(title: "سبز", color: "33ff39"),
+                          itemChip(title: "254 گیگ"),
+                          itemChip(title: "254 گیگ"),
+                          itemChip(title: "254 گیگ"),
+                          itemChip(title: "254 گیگ"),
+                          TrashChip()
                         ],
                       ),
                     )
@@ -234,10 +260,10 @@ class OrderItemWidget extends StatelessWidget {
     );
   }
 
-  Widget itemChip() {
+  Widget itemChip({String? color, required String title}) {
     return Container(
       height: 25,
-      width: 70,
+      width: 90,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -257,9 +283,10 @@ class OrderItemWidget extends StatelessWidget {
             const SizedBox(
               width: 2,
             ),
-            const Text(
-              "غازی",
-              style: TextStyle(
+            Text(
+              title,
+              maxLines: 1,
+              style: const TextStyle(
                 color: MyColors.grey,
                 fontFamily: "sm",
               ),
@@ -267,13 +294,59 @@ class OrderItemWidget extends StatelessWidget {
             const SizedBox(
               width: 2,
             ),
-            Container(
-              width: 10,
-              height: 10,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(20),
+            if (color != null) ...{
+              Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: color.convertToColor(),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              )
+            }
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget TrashChip() {
+    return Container(
+      height: 25,
+      width: 90,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: MyColors.red,
+          width: 1,
+        ),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 5,
+          vertical: 3,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              width: 2,
+            ),
+            Text(
+              "حذف",
+              maxLines: 1,
+              style: TextStyle(
+                color: MyColors.red,
+                fontFamily: "sm",
               ),
+            ),
+            SizedBox(
+              width: 2,
+            ),
+            Image(
+              image: AssetImage("assets/images/delete.png"),
+              color: MyColors.red,
             )
           ],
         ),

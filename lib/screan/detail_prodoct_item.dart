@@ -4,6 +4,7 @@ import "package:apple_shop/bloc/product/product_bloc.dart";
 import "package:apple_shop/bloc/product/product_event.dart";
 import "package:apple_shop/bloc/product/product_state.dart";
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/data/models/bucket_model.dart";
 import "package:apple_shop/data/models/product_gallery_model.dart";
 import "package:apple_shop/data/models/product_model.dart";
 import "package:apple_shop/data/models/product_properties.dart";
@@ -16,6 +17,7 @@ import "package:flutter/painting.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:hive_flutter/hive_flutter.dart";
 
 class DetailProductScrean extends StatefulWidget {
   DetailProductScrean(this.product, {super.key});
@@ -252,14 +254,15 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
                     ),
                   ),
                 ),
-                const SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 20, left: 40, right: 40),
+                    padding:
+                        const EdgeInsets.only(top: 20, left: 40, right: 40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        PayCart(),
-                        AddToBacket(),
+                        const PayCart(),
+                        AddToBacket(widget.product),
                       ],
                     ),
                   ),
@@ -635,44 +638,63 @@ class _StoragesVaribentListViewState extends State<StoragesVaribentListView> {
 }
 
 class AddToBacket extends StatelessWidget {
-  const AddToBacket({super.key});
+  Product product;
+  AddToBacket(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.bottomCenter,
-      children: [
-        Container(
-          width: 150,
-          height: 50,
-          decoration: BoxDecoration(
-              color: MyColors.blue, borderRadius: BorderRadius.circular(15)),
-        ),
-        Positioned(
-          top: 3,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 30),
-              child: Container(
-                width: 160,
-                height: 53,
-                decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: () {
+        BlocProvider.of<ProductBloc>(context).add(
+          AddProductToBusket(
+            product: product,
+          ),
+        );
+      },
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            width: 150,
+            height: 50,
+            decoration: BoxDecoration(
+              color: MyColors.blue,
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+          Positioned(
+            top: 3,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 20,
+                  sigmaY: 30,
+                ),
+                child: Container(
+                  width: 160,
+                  height: 53,
+                  decoration: BoxDecoration(
                     color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(10)),
-                child: const Center(
-                  child: Text(
-                    "افزودن به سبد خرید",
-                    style: TextStyle(
-                        color: Colors.white, fontSize: 16, fontFamily: "sb"),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "افزودن به سبد خرید",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: "sb",
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -690,26 +712,35 @@ class PayCart extends StatelessWidget {
           width: 150,
           height: 50,
           decoration: BoxDecoration(
-              color: MyColors.green, borderRadius: BorderRadius.circular(15)),
+            color: MyColors.green,
+            borderRadius: BorderRadius.circular(15),
+          ),
         ),
         Positioned(
           top: 3,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 30),
+              filter: ImageFilter.blur(
+                sigmaX: 20,
+                sigmaY: 30,
+              ),
               child: Container(
                 width: 160,
                 height: 53,
                 decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(10)),
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Text(
                       "تومان",
-                      style: TextStyle(color: Colors.white, fontFamily: "sm"),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "sm",
+                      ),
                     ),
                     const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -725,8 +756,10 @@ class PayCart extends StatelessWidget {
                         ),
                         Text(
                           "16,989,000",
-                          style:
-                              TextStyle(color: Colors.white, fontFamily: "sb"),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "sb",
+                          ),
                         ),
                       ],
                     ),
@@ -735,12 +768,16 @@ class PayCart extends StatelessWidget {
                           color: MyColors.red,
                           borderRadius: BorderRadius.circular(10)),
                       child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 1,
+                        ),
                         child: Text(
                           "%5",
-                          style:
-                              TextStyle(color: Colors.white, fontFamily: "sm"),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "sm",
+                          ),
                         ),
                       ),
                     )
@@ -773,7 +810,11 @@ class CardImage extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  left: 10,
+                  right: 10,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -814,7 +855,10 @@ class CardImage extends StatelessWidget {
                       height: 70,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        border: Border.all(width: 1, color: MyColors.grey),
+                        border: Border.all(
+                          width: 1,
+                          color: MyColors.grey,
+                        ),
                       ),
                       child: Padding(
                           padding: const EdgeInsets.all(8),
