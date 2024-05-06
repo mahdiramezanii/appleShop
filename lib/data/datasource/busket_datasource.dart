@@ -29,7 +29,6 @@ class BusketDataSource extends IBusketDataSource {
 
     var box = Hive.box<Bucket>("BucketBox");
     List<Bucket> response = box.values.toList();
-    print(response);
     return response;
     
   }

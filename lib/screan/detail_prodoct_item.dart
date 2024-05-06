@@ -1,5 +1,7 @@
 import "dart:ui";
 
+import "package:apple_shop/bloc/busket/busket_bloc.dart";
+import "package:apple_shop/bloc/busket/busket_event.dart";
 import "package:apple_shop/bloc/product/product_bloc.dart";
 import "package:apple_shop/bloc/product/product_event.dart";
 import "package:apple_shop/bloc/product/product_state.dart";
@@ -28,14 +30,33 @@ class DetailProductScrean extends StatefulWidget {
 }
 
 class _DetailProductScreanState extends State<DetailProductScrean> {
+
+
   @override
-  void initState() {
-    BlocProvider.of<ProductBloc>(context).add(InitialProductDetailEvent(
-      product_id: widget.product.id,
-      category_id: widget.product.category,
-    ));
-    super.initState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        var bloc = ProductBloc();
+        bloc.add(
+          InitialProductDetailEvent(
+            product_id: widget.product.id,
+            category_id: widget.product.category,
+          ),
+        );
+        return bloc;
+      },
+      child: ContentWidgets(widget: widget),
+    );
   }
+}
+
+class ContentWidgets extends StatelessWidget {
+  const ContentWidgets({
+    super.key,
+    required this.widget,
+  });
+
+  final DetailProductScrean widget;
 
   @override
   Widget build(BuildContext context) {
@@ -650,6 +671,9 @@ class AddToBacket extends StatelessWidget {
             product: product,
           ),
         );
+
+        context.read<BusketBloc>().add(FetchBusketEvent());
+        
       },
       child: Stack(
         clipBehavior: Clip.none,

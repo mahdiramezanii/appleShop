@@ -4,6 +4,7 @@ import "package:apple_shop/bloc/busket/busket_bloc.dart";
 import "package:apple_shop/bloc/busket/busket_event.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/datasource/authentication_datasource.dart";
+import "package:apple_shop/di/service_locator.dart";
 import "package:apple_shop/screan/category_screan.dart";
 import "package:apple_shop/screan/home_screan.dart";
 import "package:apple_shop/screan/order_screan.dart";
@@ -87,11 +88,11 @@ class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
       ProfileScrean(),
       BlocProvider(
         create: (context) {
-          var bloc = BusketBloc();
+          var bloc = locator.get<BusketBloc>();
           bloc.add(FetchBusketEvent());
           return bloc;
         },
-        child:  OrderScrean(),
+        child: OrderScrean(),
       ),
       CategoryScrean(),
       const HomeScrean(),

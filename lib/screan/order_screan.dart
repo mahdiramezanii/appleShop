@@ -8,6 +8,8 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:hive/hive.dart";
+import "package:hive_flutter/hive_flutter.dart";
 
 class OrderScrean extends StatelessWidget {
   const OrderScrean({super.key});
@@ -17,7 +19,7 @@ class OrderScrean extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: MyColors.white,
-        body: BlocBuilder<BusketBloc,BusketState>(
+        body: BlocBuilder<BusketBloc, BusketState>(
           builder: (context, state) {
             return Stack(
               alignment: Alignment.bottomCenter,
@@ -59,26 +61,22 @@ class OrderScrean extends StatelessWidget {
                         ),
                       ),
                     ),
-                   if(state is ResponsebusketState)...{
-
-                    state.response.fold((l){
-
-
-                     return SliverToBoxAdapter(child: Text(l),);
-                      
-                    }, (busketList){
-
-                      return  SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return OrderItemWidget(busketList[index]);
-                        },
-                        childCount: busketList.length,
-                      ),
-                    );
-
-                    })
-                   }
+                    if (state is ResponsebusketState) ...{
+                      state.response.fold((l) {
+                        return SliverToBoxAdapter(
+                          child: Text(l),
+                        );
+                      }, (busketList) {
+                        return SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return OrderItemWidget(busketList[index]);
+                            },
+                            childCount: busketList.length,
+                          ),
+                        );
+                      })
+                    }
                   ],
                 ),
                 ElevatedButton(
@@ -109,7 +107,8 @@ class OrderScrean extends StatelessWidget {
 
 class OrderItemWidget extends StatelessWidget {
   Bucket busket;
-  OrderItemWidget(this.busket,{
+  OrderItemWidget(
+    this.busket, {
     super.key,
   });
 
@@ -136,17 +135,17 @@ class OrderItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      " آیفون 13 پرومکس 256 گیگ",
-                      style: TextStyle(
+                    Text(
+                      busket.name,
+                      style: const TextStyle(
                         fontFamily: "sb",
                         fontSize: 18,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                     Text(
-                      busket.name,
-                      style:const  TextStyle(
+                    const Text(
+                      "گارانتی 18 ماهه مدیا پردازش",
+                      style: TextStyle(
                         fontFamily: "sm",
                         color: MyColors.grey,
                       ),
@@ -182,7 +181,7 @@ class OrderItemWidget extends StatelessWidget {
                             color: MyColors.grey,
                           ),
                         ),
-                         Text(
+                        Text(
                           "${busket.price}",
                           style: const TextStyle(
                             fontFamily: "sm",

@@ -1,3 +1,4 @@
+import 'package:apple_shop/bloc/busket/busket_bloc.dart';
 import 'package:apple_shop/data/datasource/authentication_datasource.dart';
 import 'package:apple_shop/data/datasource/banner_datasource.dart';
 import 'package:apple_shop/data/datasource/busket_datasource.dart';
@@ -48,4 +49,9 @@ Future<void> initLocator() async {
   //components
   locator.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
+
+
+  //bloc
+
+  locator.registerSingleton<BusketBloc>(BusketBloc());
 }
