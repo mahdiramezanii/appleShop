@@ -5,12 +5,14 @@ import 'package:hive/hive.dart';
 abstract class IBusketDataSource {
   Future<void> addProductToBusket(Product product);
   Future<List<Bucket>> fetchBucketList();
+  Future<int> getTotalPrice();
 }
 
 class BusketDataSource extends IBusketDataSource {
   @override
   Future<void> addProductToBusket(Product product) async {
     var box = Hive.box<Bucket>("BucketBox");
+
     var item = Bucket(
       id: product.id,
       collectionId: product.collectionId,
@@ -26,10 +28,17 @@ class BusketDataSource extends IBusketDataSource {
 
   @override
   Future<List<Bucket>> fetchBucketList() async {
-
     var box = Hive.box<Bucket>("BucketBox");
     List<Bucket> response = box.values.toList();
     return response;
-    
+  }
+
+  @override
+  Future<int> getTotalPrice() async {
+    var box = Hive.box<Bucket>("BucketBox").values.toList();
+    var totalPrice = box.fold(0, (calculator, product) {
+      return calculator + product.realPrice!;
+    });
+    return totalPrice;
   }
 }

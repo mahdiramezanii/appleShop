@@ -79,23 +79,25 @@ class OrderScrean extends StatelessWidget {
                     }
                   ],
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyColors.green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                if (state is ResponsebusketState) ...{
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyColors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child:  Text(
+                      "${state.total_price}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: "sm",
+                      ),
                     ),
                   ),
-                  onPressed: () {},
-                  child: const Text(
-                    "ادامه فرآیند خرید",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: "sm",
-                    ),
-                  ),
-                ),
+                }
               ],
             );
           },

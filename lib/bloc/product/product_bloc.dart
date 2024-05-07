@@ -1,6 +1,6 @@
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
-import 'package:apple_shop/data/datasource/busket_repository.dart';
+import 'package:apple_shop/data/repository/busket_repository.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
 import 'package:apple_shop/di/service_locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
