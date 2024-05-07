@@ -7,9 +7,10 @@ class InitialBusketState extends BusketState {}
 
 class ResponsebusketState extends BusketState {
   Either<String, List<Bucket>> response;
+  int total_price;
 
   ResponsebusketState({
     required this.response,
+    required this.total_price,
   });
-  
 }

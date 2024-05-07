@@ -7,6 +7,9 @@ import 'package:dartz/dartz.dart';
 abstract class IBusketRepository {
   Future<Either<String, String>> addProductToBusket(Product product);
   Future<Either<String, List<Bucket>>> fetchBucketList();
+  Future<int> getTotalPrice();
+
+  
 }
 
 class BusketRepository extends IBusketRepository {
@@ -31,4 +34,13 @@ class BusketRepository extends IBusketRepository {
       return const Left("خطایی رخ داده است");
     }
   }
+  
+  @override
+  Future<int> getTotalPrice() async {
+
+    var response=_dataSuorce.getTotalPrice();
+    return response;
+  
+  }
+  
 }
