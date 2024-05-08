@@ -89,8 +89,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                         padding: EdgeInsets.only(right: 20),
                         child: Text(
                           "دسته بندی",
-                          style:
-                              TextStyle(fontFamily: "sm", color: MyColors.grey),
+                          style: TextStyle(
+                            fontFamily: "sm",
+                            color: MyColors.grey,
+                          ),
                         ),
                       ),
                       const SizedBox(
