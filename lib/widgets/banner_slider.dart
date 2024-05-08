@@ -7,6 +7,7 @@ import "package:smooth_page_indicator/smooth_page_indicator.dart";
 
 // ignore: must_be_immutable
 class BannerSlider extends StatelessWidget {
+  
   BannerSlider({super.key, this.response});
   List<BannerModel>? response;
 
@@ -30,7 +31,10 @@ class BannerSlider extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: CashNetworkImage(url: response?[index].thumbnail ?? "",radius: 15,),
+                child: CashNetworkImage(
+                  url: response?[index].thumbnail ?? "",
+                  radius: 15,
+                ),
               );
             },
           ),
