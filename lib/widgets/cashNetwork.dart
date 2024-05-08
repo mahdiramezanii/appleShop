@@ -32,7 +32,9 @@ class CashNetworkImage extends StatelessWidget {
             child: SpinKitCircle(
               itemBuilder: (BuildContext context, int index) {
                 return const DecoratedBox(
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
                 );
               },
             ),
