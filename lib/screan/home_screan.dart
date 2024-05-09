@@ -6,6 +6,7 @@ import "package:apple_shop/bloc/product/product_bloc.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/di/service_locator.dart";
 import "package:apple_shop/screan/detail_prodoct_item.dart";
+import "package:apple_shop/util/animitaion_loading.dart";
 
 import "package:apple_shop/widgets/banner_slider.dart";
 import "package:apple_shop/widgets/homeWidgets.dart";
@@ -52,23 +53,12 @@ class HomeWidget extends StatelessWidget {
 
   Widget getBodyHomeScrean(HomeState state, BuildContext context) {
     if (state is LodingBannerHomeState) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 80,
-              width: 80,
-              child: LoadingIndicator(
-                indicatorType: Indicator.ballRotateChase,
-                colors: [
-                  MyColors.blue,
-                  MyColors.red,
-                ],
-                strokeWidth: 2,
-              ),
-            ),
-            Text(
+            AnimitaionLoading(),
+            const Text(
               "توسعه دهنده:مهدی رمضانی",
               style: TextStyle(
                 color: MyColors.grey,
