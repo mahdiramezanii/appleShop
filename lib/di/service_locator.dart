@@ -2,6 +2,7 @@ import 'package:apple_shop/bloc/busket/busket_bloc.dart';
 import 'package:apple_shop/data/datasource/authentication_datasource.dart';
 import 'package:apple_shop/data/datasource/banner_datasource.dart';
 import 'package:apple_shop/data/datasource/busket_datasource.dart';
+import 'package:apple_shop/data/datasource/comment_data_source.dart';
 import 'package:apple_shop/data/repository/busket_repository.dart';
 import 'package:apple_shop/data/datasource/product_category_data_source.dart';
 import 'package:apple_shop/data/datasource/product_detail_datasource.dart';
@@ -10,6 +11,7 @@ import 'package:apple_shop/data/datasource/category_data_source.dart';
 import 'package:apple_shop/data/datasource/product_data_source.dart';
 import 'package:apple_shop/data/repository/authentication_repository.dart';
 import 'package:apple_shop/data/repository/category_repository.dart';
+import 'package:apple_shop/data/repository/comments_reository.dart';
 import 'package:apple_shop/data/repository/product_category_repository.dart';
 import 'package:apple_shop/data/repository/product_detail_repository.dart';
 import 'package:apple_shop/data/repository/product_repository.dart';
@@ -75,6 +77,7 @@ void _initDataSource() {
   locator.registerFactory<IProductCategoryDataSource>(
       () => ProductCategoryDataSource());
   locator.registerFactory<IBusketDataSource>(() => BusketDataSource());
+  locator.registerFactory<ICommentDataSource>(() => CommentRemoteDataSource());
 }
 
 void _initRepository() {
@@ -88,6 +91,7 @@ void _initRepository() {
   locator.registerFactory<IProductCategoryRepostory>(
       () => ProductCategoryRepository());
   locator.registerFactory<IBusketRepository>(() => BusketRepository());
+  locator.registerFactory<ICommentsRepository>(() => CommenstRepository());
 }
 
 void _initBloc() {

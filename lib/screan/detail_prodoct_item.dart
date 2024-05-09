@@ -36,10 +36,8 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
         var bloc = ProductBloc();
         bloc.add(
           InitialProductDetailEvent(
-
             product_id: widget.product.id,
             category_id: widget.product.category,
-
           ),
         );
         return bloc;
@@ -172,114 +170,144 @@ class ContentWidgets extends StatelessWidget {
                 if (state is ProductDetailResultState) ...{
                   ProductDiscription(widget.product),
                   SliverToBoxAdapter(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 20, left: 40, right: 40),
-                      child: Container(
-                        width: 340,
-                        height: 50,
-                        decoration: BoxDecoration(
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: false,
+                          
+                            context: context,
+                            builder: (context) {
+                              return DraggableScrollableSheet(
+                                
+                                  builder: (context, controller) {
+                                return CommentButtonShit(controller);
+                              });
+                            });
+                      },
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(top: 20, left: 40, right: 40),
+                        child: Container(
+                          width: 340,
+                          height: 50,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: MyColors.grey, width: 1)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(
-                            children: [
-                              Image.asset("assets/images/left_shift.png"),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Text(
-                                "مشاهده",
-                                style: TextStyle(
-                                    fontFamily: "sb", color: MyColors.blue),
-                              ),
-                              const Spacer(),
-                              Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Positioned(
-                                    child: Container(
-                                      height: 26,
-                                      width: 26,
-                                      decoration: BoxDecoration(
+                            border: Border.all(
+                              color: MyColors.grey,
+                              width: 1,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              children: [
+                                Image.asset("assets/images/left_shift.png"),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Text(
+                                  "مشاهده",
+                                  style: TextStyle(
+                                    fontFamily: "sb",
+                                    color: MyColors.blue,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned(
+                                      child: Container(
+                                        height: 26,
+                                        width: 26,
+                                        decoration: BoxDecoration(
                                           color: Colors.red,
                                           borderRadius:
-                                              BorderRadius.circular(5)),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 10,
-                                    child: Container(
-                                      height: 26,
-                                      width: 26,
-                                      decoration: BoxDecoration(
-                                          color: Colors.blue,
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 20,
-                                    child: Container(
-                                      height: 26,
-                                      width: 26,
-                                      decoration: BoxDecoration(
-                                          color: Colors.yellow,
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 30,
-                                    child: Container(
-                                      height: 26,
-                                      width: 26,
-                                      decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 40,
-                                    child: Container(
-                                      height: 26,
-                                      width: 26,
-                                      decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 50,
-                                    child: Container(
-                                      height: 26,
-                                      width: 26,
-                                      decoration: BoxDecoration(
-                                          color: MyColors.grey,
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      child: const Center(
-                                        child: Text(
-                                          "+10",
-                                          style: TextStyle(fontFamily: "sm"),
+                                              BorderRadius.circular(5),
                                         ),
                                       ),
                                     ),
+                                    Positioned(
+                                      right: 10,
+                                      child: Container(
+                                        height: 26,
+                                        width: 26,
+                                        decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 20,
+                                      child: Container(
+                                        height: 26,
+                                        width: 26,
+                                        decoration: BoxDecoration(
+                                          color: Colors.yellow,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 30,
+                                      child: Container(
+                                        height: 26,
+                                        width: 26,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 40,
+                                      child: Container(
+                                        height: 26,
+                                        width: 26,
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 50,
+                                      child: Container(
+                                        height: 26,
+                                        width: 26,
+                                        decoration: BoxDecoration(
+                                            color: MyColors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: const Center(
+                                          child: Text(
+                                            "+10",
+                                            style: TextStyle(
+                                              fontFamily: "sm",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                const Text(
+                                  "نظرات کاربران",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "sb",
                                   ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Text(
-                                "نظرات کاربران",
-                                style: TextStyle(
-                                    color: Colors.black, fontFamily: "sb"),
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -305,6 +333,24 @@ class ContentWidgets extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class CommentButtonShit extends StatelessWidget {
+  ScrollController _controller;
+
+  CommentButtonShit(this._controller);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: CustomScrollView(
+        controller: _controller,
+        slivers: [
+       
+        ],
+      ),
     );
   }
 }
