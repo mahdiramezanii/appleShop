@@ -18,7 +18,6 @@ import 'package:apple_shop/util/url_handller.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zarinpal/zarinpal.dart';
 
 var locator = GetIt.I;
 Future<void> initLocator() async {
