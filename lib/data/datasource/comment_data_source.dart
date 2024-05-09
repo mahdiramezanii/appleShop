@@ -21,7 +21,7 @@ class CommentRemoteDataSource extends ICommentDataSource {
         queryParameters: qparam,
       );
 
-      return response.data["items"].map((jsonMapObject) {
+      return response.data["items"].map<Comments>((jsonMapObject) {
         return Comments.fromJson(jsonMapObject);
       }).toList();
 
