@@ -1,4 +1,5 @@
 import "package:apple_shop/bloc/busket/busket_bloc.dart";
+import "package:apple_shop/bloc/busket/busket_event.dart";
 import "package:apple_shop/bloc/busket/busket_state.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/models/bucket_model.dart";
@@ -8,10 +9,6 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:hive/hive.dart";
-import "package:hive_flutter/hive_flutter.dart";
-import "package:url_launcher/url_launcher.dart";
-import "package:zarinpal/zarinpal.dart";
 
 class OrderScrean extends StatefulWidget {
   const OrderScrean({super.key});
@@ -21,20 +18,6 @@ class OrderScrean extends StatefulWidget {
 }
 
 class _OrderScreanState extends State<OrderScrean> {
-  PaymentRequest _paymentRequest = PaymentRequest();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _paymentRequest.setIsSandBox(true);
-    _paymentRequest.setAmount(1000);
-    _paymentRequest.setMerchantID("b3b73736-7999-4b64-b2e7-f14c42ee52a7");
-    _paymentRequest.setDescription("خرید تستی از اپلیکیشن مهدی رمضانی");
-    _paymentRequest.setCallbackURL("expertflutter://shop");
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -109,12 +92,11 @@ class _OrderScreanState extends State<OrderScrean> {
                       ),
                     ),
                     onPressed: () async {
-                      ZarinPal().startPayment(_paymentRequest,
-                          (status, paymentGatewayUri) {
-                        if (status == 100) {
-                          launchUrl(Uri.parse(paymentGatewayUri!));
-                        }
-                      });
+                      context
+                          .read<BusketBloc>()
+                          .add(InitialPaymentRequestEvent());
+
+                      context.read<BusketBloc>().add(PaymentRequestEvnt());
                     },
                     child: Text(
                       "${state.total_price}",
