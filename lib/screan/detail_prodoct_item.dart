@@ -2,6 +2,9 @@ import "dart:ui";
 
 import "package:apple_shop/bloc/busket/busket_bloc.dart";
 import "package:apple_shop/bloc/busket/busket_event.dart";
+import "package:apple_shop/bloc/comments/comment_bloc.dart";
+import "package:apple_shop/bloc/comments/comment_event.dart";
+import "package:apple_shop/bloc/comments/comment_state.dart";
 import "package:apple_shop/bloc/product/product_bloc.dart";
 import "package:apple_shop/bloc/product/product_event.dart";
 import "package:apple_shop/bloc/product/product_state.dart";
@@ -11,6 +14,7 @@ import "package:apple_shop/data/models/product_model.dart";
 import "package:apple_shop/data/models/product_properties.dart";
 import "package:apple_shop/data/models/product_varibent.dart";
 import "package:apple_shop/data/models/varient_type_model.dart";
+import "package:apple_shop/di/service_locator.dart";
 import "package:apple_shop/util/animitaion_loading.dart";
 import "package:apple_shop/widgets/cashNetwork.dart";
 import "package:flutter/cupertino.dart";
@@ -173,15 +177,29 @@ class ContentWidgets extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
-                          isScrollControlled: false,
-                          
+                            isScrollControlled: true,
+                            isDismissible: true,
+                            backgroundColor: Colors.transparent,
+                            barrierColor: Colors.transparent,
                             context: context,
                             builder: (context) {
                               return DraggableScrollableSheet(
-                                
-                                  builder: (context, controller) {
-                                return CommentButtonShit(controller);
-                              });
+                                maxChildSize: 1,
+                                minChildSize: 0.1,
+                                initialChildSize: 0.3,
+                                builder: (context, controller) {
+                                  return BlocProvider(
+                                    create: (context) {
+                                      var bloc = CommentBloc(locator.get());
+                                      bloc.add(GetCommntsEvent(
+                                        productId: widget.product.id,
+                                      ));
+                                      return bloc;
+                                    },
+                                    child: CommentButtonShit(controller),
+                                  );
+                                },
+                              );
                             });
                       },
                       child: Padding(
@@ -343,15 +361,38 @@ class CommentButtonShit extends StatelessWidget {
   CommentButtonShit(this._controller);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: CustomScrollView(
-        controller: _controller,
-        slivers: [
-       
-        ],
-      ),
-    );
+    return BlocBuilder<CommentBloc, CommentState>(builder: (context, state) {
+      if (state is LoadingCommentsState) {
+        return Scaffold(
+          backgroundColor: MyColors.grey,
+          body: Center(child: AnimitaionLoading()),
+        );
+      }
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: CustomScrollView(
+          controller: _controller,
+          slivers: [
+            if (state is ResponseCommentState) ...{
+              state.response.fold((l) {
+                return SliverToBoxAdapter(
+                  child: Text(l),
+                );
+              }, (comment) {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return Text(comment[index].text);
+                    },
+                    childCount: comment.length,
+                  ),
+                );
+              })
+            },
+          ],
+        ),
+      );
+    });
   }
 }
 
