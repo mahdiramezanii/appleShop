@@ -7,10 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class BusketBloc extends Bloc<BusketEvent, BusketState> {
-  final IBusketRepository _repository = locator.get();
-  PaymentHandler _paymentHandler = ZarinPalHamdllerPayment();
-
-  BusketBloc() : super(InitialBusketState()) {
+  final IBusketRepository _repository;
+  PaymentHandler _paymentHandler ;
+  
+  BusketBloc(this._paymentHandler,this._repository) : super(InitialBusketState()) {
     on<FetchBusketEvent>((event, emit) async {
       var response = await _repository.fetchBucketList();
       var total_price = await _repository.getTotalPrice();
