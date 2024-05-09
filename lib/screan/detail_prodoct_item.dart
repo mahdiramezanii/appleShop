@@ -184,7 +184,7 @@ class ContentWidgets extends StatelessWidget {
                             context: context,
                             builder: (context) {
                               return DraggableScrollableSheet(
-                                maxChildSize: 1,
+                                maxChildSize: 0.7,
                                 minChildSize: 0.1,
                                 initialChildSize: 0.3,
                                 builder: (context, controller) {
@@ -382,7 +382,40 @@ class CommentButtonShit extends StatelessWidget {
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      return Text(comment[index].text);
+                      return Container(
+                          margin: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: MyColors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    comment[index].name,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                    ),
+                                  ),
+                                  Text(
+                                    comment[index].text,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              CashNetworkImage(
+                                url: comment[index].thumbnail,
+                                radius: 0,
+                              )
+                            ],
+                          ));
                     },
                     childCount: comment.length,
                   ),
