@@ -6,12 +6,12 @@ import "package:apple_shop/bloc/product/product_bloc.dart";
 import "package:apple_shop/bloc/product/product_event.dart";
 import "package:apple_shop/bloc/product/product_state.dart";
 import "package:apple_shop/constants/colors.dart";
-import "package:apple_shop/data/models/bucket_model.dart";
 import "package:apple_shop/data/models/product_gallery_model.dart";
 import "package:apple_shop/data/models/product_model.dart";
 import "package:apple_shop/data/models/product_properties.dart";
 import "package:apple_shop/data/models/product_varibent.dart";
 import "package:apple_shop/data/models/varient_type_model.dart";
+import "package:apple_shop/util/animitaion_loading.dart";
 import "package:apple_shop/widgets/cashNetwork.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -19,7 +19,6 @@ import "package:flutter/painting.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:hive_flutter/hive_flutter.dart";
 
 class DetailProductScrean extends StatefulWidget {
   DetailProductScrean(this.product, {super.key});
@@ -30,8 +29,6 @@ class DetailProductScrean extends StatefulWidget {
 }
 
 class _DetailProductScreanState extends State<DetailProductScrean> {
-
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -39,8 +36,10 @@ class _DetailProductScreanState extends State<DetailProductScrean> {
         var bloc = ProductBloc();
         bloc.add(
           InitialProductDetailEvent(
+
             product_id: widget.product.id,
             category_id: widget.product.category,
+
           ),
         );
         return bloc;
@@ -62,18 +61,18 @@ class ContentWidgets extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
+        if (state is ProductDetailLoadingState) {
+          return Scaffold(
+            body: Center(
+              child: AnimitaionLoading(),
+            ),
+          );
+        }
         return SafeArea(
           child: Scaffold(
             backgroundColor: MyColors.white,
             body: CustomScrollView(
               slivers: [
-                if (state is ProductDetailLoadingState) ...{
-                  const SliverToBoxAdapter(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                },
                 if (state is ProductDetailResultState) ...{
                   SliverToBoxAdapter(
                     child: Container(
@@ -124,16 +123,21 @@ class ContentWidgets extends StatelessWidget {
                     ),
                   ),
                 },
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(
-                      widget.product.name,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontFamily: "sb", fontSize: 20),
+                if (state is ProductDetailResultState) ...{
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Text(
+                        widget.product.name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: "sb",
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                },
                 if (state is ProductDetailResultState) ...{
                   state.product_image_list.fold((l) {
                     return SliverToBoxAdapter(
@@ -165,130 +169,137 @@ class ContentWidgets extends StatelessWidget {
                     );
                   }),
                 },
-                ProductDiscription(widget.product),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, left: 40, right: 40),
-                    child: Container(
-                      width: 340,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: MyColors.grey, width: 1)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          children: [
-                            Image.asset("assets/images/left_shift.png"),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              "مشاهده",
-                              style: TextStyle(
-                                  fontFamily: "sb", color: MyColors.blue),
-                            ),
-                            const Spacer(),
-                            Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Positioned(
-                                  child: Container(
-                                    height: 26,
-                                    width: 26,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 10,
-                                  child: Container(
-                                    height: 26,
-                                    width: 26,
-                                    decoration: BoxDecoration(
-                                        color: Colors.blue,
-                                        borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 20,
-                                  child: Container(
-                                    height: 26,
-                                    width: 26,
-                                    decoration: BoxDecoration(
-                                        color: Colors.yellow,
-                                        borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 30,
-                                  child: Container(
-                                    height: 26,
-                                    width: 26,
-                                    decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 40,
-                                  child: Container(
-                                    height: 26,
-                                    width: 26,
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(5),
+                if (state is ProductDetailResultState) ...{
+                  ProductDiscription(widget.product),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 40, right: 40),
+                      child: Container(
+                        width: 340,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(color: MyColors.grey, width: 1)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            children: [
+                              Image.asset("assets/images/left_shift.png"),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text(
+                                "مشاهده",
+                                style: TextStyle(
+                                    fontFamily: "sb", color: MyColors.blue),
+                              ),
+                              const Spacer(),
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Positioned(
+                                    child: Container(
+                                      height: 26,
+                                      width: 26,
+                                      decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
                                     ),
                                   ),
-                                ),
-                                Positioned(
-                                  right: 50,
-                                  child: Container(
-                                    height: 26,
-                                    width: 26,
-                                    decoration: BoxDecoration(
-                                        color: MyColors.grey,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: const Center(
-                                      child: Text(
-                                        "+10",
-                                        style: TextStyle(fontFamily: "sm"),
+                                  Positioned(
+                                    right: 10,
+                                    child: Container(
+                                      height: 26,
+                                      width: 26,
+                                      decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 20,
+                                    child: Container(
+                                      height: 26,
+                                      width: 26,
+                                      decoration: BoxDecoration(
+                                          color: Colors.yellow,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 30,
+                                    child: Container(
+                                      height: 26,
+                                      width: 26,
+                                      decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 40,
+                                    child: Container(
+                                      height: 26,
+                                      width: 26,
+                                      decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Text(
-                              "نظرات کاربران",
-                              style: TextStyle(
-                                  color: Colors.black, fontFamily: "sb"),
-                            ),
-                          ],
+                                  Positioned(
+                                    right: 50,
+                                    child: Container(
+                                      height: 26,
+                                      width: 26,
+                                      decoration: BoxDecoration(
+                                          color: MyColors.grey,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: const Center(
+                                        child: Text(
+                                          "+10",
+                                          style: TextStyle(fontFamily: "sm"),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                "نظرات کاربران",
+                                style: TextStyle(
+                                    color: Colors.black, fontFamily: "sb"),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, left: 40, right: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const PayCart(),
-                        AddToBacket(widget.product),
-                      ],
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 40, right: 40),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const PayCart(),
+                          AddToBacket(widget.product),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SliverPadding(padding: EdgeInsets.only(bottom: 20))
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 20))
+                }
               ],
             ),
           ),
@@ -671,9 +682,7 @@ class AddToBacket extends StatelessWidget {
             product: product,
           ),
         );
-
         context.read<BusketBloc>().add(FetchBusketEvent());
-        
       },
       child: Stack(
         clipBehavior: Clip.none,

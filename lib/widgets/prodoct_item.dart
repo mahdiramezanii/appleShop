@@ -1,5 +1,6 @@
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/data/models/product_model.dart';
+import 'package:apple_shop/util/extentions/int_exception.dart';
 import 'package:apple_shop/widgets/cashNetwork.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,11 +46,14 @@ Widget ProdouctItem(Product product) {
               bottom: 5,
               child: Container(
                 decoration: BoxDecoration(
-                    color: MyColors.red,
-                    borderRadius: BorderRadius.circular(15)),
+                  color: MyColors.red,
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 1,
+                  ),
                   child: Text(
                     "%${product.percent!.round()}",
                     style:
@@ -84,13 +88,16 @@ Widget ProdouctItem(Product product) {
               const Text(
                 "تومان",
                 style: TextStyle(
-                    fontFamily: "sm", fontSize: 14, color: Colors.white),
+                  fontFamily: "sm",
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "${product.discount_price}",
+                    product.discount_price.formatPriceWithComma(),
                     style: const TextStyle(
                       fontFamily: "sm",
                       color: Colors.white,
@@ -101,8 +108,8 @@ Widget ProdouctItem(Product product) {
                     ),
                   ),
                   Text(
-                    "${product.realPrice}",
-                    style: TextStyle(
+                    product.realPrice!.formatPriceWithComma(),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontFamily: "sm",
                       fontSize: 14,
@@ -110,7 +117,7 @@ Widget ProdouctItem(Product product) {
                   ),
                 ],
               ),
-              Image(image: AssetImage("assets/images/arrow.png"))
+              const Image(image: AssetImage("assets/images/arrow.png"))
             ],
           ),
         )
