@@ -8,14 +8,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
 
-
   WidgetsFlutterBinding();
   await Hive.initFlutter();
   Hive.registerAdapter(BucketAdapter());
   await Hive.openBox<Bucket>("BucketBox");
   await initLocator();
   runApp(MyApp());
-  
+
   
 }
 

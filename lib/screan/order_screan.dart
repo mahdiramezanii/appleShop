@@ -98,13 +98,23 @@ class _OrderScreanState extends State<OrderScrean> {
 
                       context.read<BusketBloc>().add(PaymentRequestEvnt());
                     },
-                    child: Text(
-                      "${state.total_price}",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: "sm",
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "${state.total_price}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: "sm",
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                      
+                      ],
                     ),
                   ),
                 }
