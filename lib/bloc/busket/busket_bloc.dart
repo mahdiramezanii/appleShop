@@ -23,7 +23,9 @@ class BusketBloc extends Bloc<BusketEvent, BusketState> {
       ));
     });
 
-    on<InitialPaymentRequestEvent>((event, emit) {
+    on<InitialPaymentRequestEvent>((event, emit) async {
+
+
       _paymentRequest.setIsSandBox(true);
       _paymentRequest.setAmount(1000);
       _paymentRequest.setMerchantID("b3b73736-7999-4b64-b2e7-f14c42ee52a7");
@@ -48,7 +50,7 @@ class BusketBloc extends Bloc<BusketEvent, BusketState> {
       });
     });
 
-    on<PaymentRequestEvnt>((event, emit) {
+    on<PaymentRequestEvnt>((event, emit) async {
       ZarinPal().startPayment(_paymentRequest, (status, paymentGatewayUri) {
         if (status == 100) {
           launchUrl(
@@ -58,7 +60,5 @@ class BusketBloc extends Bloc<BusketEvent, BusketState> {
         }
       });
     });
-
-    
   }
 }
