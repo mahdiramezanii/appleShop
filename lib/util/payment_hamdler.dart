@@ -11,7 +11,9 @@ abstract class PaymentHandler {
 
 class ZarinPalHamdllerPayment extends PaymentHandler {
   PaymentRequest _paymentRequest = PaymentRequest();
-  UrlHandller _urlHandller = UrlLuncher();
+  UrlHandller _urlHandller;
+
+  ZarinPalHamdllerPayment(this._urlHandller);
 
   @override
   Future<void> initialPayment() async {
