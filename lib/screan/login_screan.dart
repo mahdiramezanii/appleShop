@@ -2,7 +2,7 @@ import "package:apple_shop/bloc/authentication/auth_bloc.dart";
 import "package:apple_shop/bloc/authentication/auth_event.dart";
 import "package:apple_shop/bloc/authentication/auth_state.dart";
 import "package:apple_shop/constants/colors.dart";
-import "package:dartz/dartz.dart";
+
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -15,6 +15,7 @@ class LoginScrean extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -124,23 +125,25 @@ class LoginScrean extends StatelessWidget {
                       return const CircularProgressIndicator();
                     }
 
-                    if (state is ResponseAuthState){
-
-                      Text widget=Text("");
+                    if (state is ResponseAuthState) {
+                      Text widget = const Text("");
 
                       state.response.fold((l) {
-                        widget=Text(l,style: TextStyle(color: Colors.red),);
-
+                        widget = Text(
+                          l,
+                          style: const TextStyle(color: Colors.red),
+                        );
                       }, (r) {
-
-                        widget=Text(r,style: TextStyle(color: Colors.blue),);
-
+                        widget = Text(
+                          r,
+                          style: const TextStyle(color: Colors.blue),
+                        );
                       });
 
                       return widget;
                     }
 
-                    return Text("خطا");
+                    return const Text("خطا");
                   }),
                 ],
               ),
