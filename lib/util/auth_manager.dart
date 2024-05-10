@@ -19,4 +19,13 @@ class AuthManager {
     _sharedpref.clear();
     changeAuth.value=null;
   }
+
+  static bool isLoggin(){
+
+    String token=get_token();
+
+    return token.isNotEmpty;
+
+
+  }
 }

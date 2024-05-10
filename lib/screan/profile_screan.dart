@@ -1,6 +1,13 @@
+import "package:apple_shop/bloc/authentication/auth_bloc.dart";
+import "package:apple_shop/bloc/authentication/auth_state.dart";
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/main.dart";
+import "package:apple_shop/screan/bootom_navigation.dart";
+import "package:apple_shop/screan/login_screan.dart";
+import "package:apple_shop/util/auth_manager.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class ProfileScrean extends StatelessWidget {
   @override
@@ -279,6 +286,49 @@ class ProfileScrean extends StatelessWidget {
               ),
             ),
             const Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                AuthManager.logout();
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                  return BlocProvider(
+                    create: (context) {
+                      var bloc = AuthBloc();
+
+                      bloc.stream.forEach((state) {
+                        if (state is ResponseAuthState) {
+                          state.response.fold((l) => null, (r) {
+                            return globalKey.currentState?.pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return BottomNavigatonScrean();
+                                },
+                              ),
+                            );
+                          });
+                        }
+                      });
+
+                      return bloc;
+                    },
+                    child: LoginScrean(),
+                  );
+                }));
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: MyColors.red,
+              ),
+              child: const Text(
+                "خروج از حساب کابری",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "sb",
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
             const Text(
               "اپل شاپ",
               style: TextStyle(
