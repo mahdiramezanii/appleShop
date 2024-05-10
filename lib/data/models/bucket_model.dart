@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'bucket_model.g.dart';
 
 @HiveType(typeId: 0)
-class Bucket {
+class Bucket extends HiveObject {
   @HiveField(0)
   String id;
   @HiveField(1)

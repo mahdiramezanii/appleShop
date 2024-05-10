@@ -49,10 +49,10 @@ class BusketDataSource extends IBusketDataSource {
     try{
 
       var box = Hive.box<Bucket>("BucketBox").values.toList();
-      print(box.length);
-
-      box.removeAt(index);
-      print(box.length);
+      
+      var b=box.elementAt(index);
+      b.delete();
+      
     } catch (ex){
 
       throw ex;
