@@ -234,7 +234,6 @@ class OrderItemWidget extends StatelessWidget {
                           itemChip(title: "254 گیگ"),
                           GestureDetector(
                             onTap: () async {
-                              print("object");
                               context
                                   .read<BusketBloc>()
                                   .add(RemoveItemBusket(busket_id: index));
