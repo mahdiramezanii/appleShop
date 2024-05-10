@@ -15,6 +15,16 @@ class AuthManager {
     return _sharedpref.getString("accses_token") ?? "";
   }
 
+  static void setUserId(String id){
+
+    _sharedpref.setString("user_id", id);
+  }
+
+  static String getUserID(){
+
+    return _sharedpref.getString("user_id") ?? "";
+  }
+
   static void logout() {
     _sharedpref.clear();
     changeAuth.value=null;

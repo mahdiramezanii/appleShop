@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:apple_shop/data/models/comments_models.dart';
 import 'package:apple_shop/di/service_locator.dart';
 import 'package:apple_shop/util/api_exception.dart';
+import 'package:apple_shop/util/auth_manager.dart';
 import 'package:dio/dio.dart';
 
 abstract class ICommentDataSource {
@@ -12,6 +13,8 @@ abstract class ICommentDataSource {
 
 class CommentRemoteDataSource extends ICommentDataSource {
   final Dio _dio = locator.get();
+  String user_id=AuthManager.getUserID();
+
   @override
   Future<List<Comments>> getComments(String productId) async {
     try {
@@ -47,7 +50,7 @@ class CommentRemoteDataSource extends ICommentDataSource {
       var response = await _dio.post("collections/comment/records", data: {
         "product_id": productId,
         "text": comment,
-        "user_id": "o2puw73n1hpsrwd",
+        "user_id": user_id,
       });
     } on DioException catch (ex) {
       throw ApiExceptiopn(
