@@ -78,6 +78,7 @@ void _initDataSource() {
       () => ProductCategoryDataSource());
   locator.registerFactory<IBusketDataSource>(() => BusketDataSource());
   locator.registerFactory<ICommentDataSource>(() => CommentRemoteDataSource());
+
 }
 
 void _initRepository() {

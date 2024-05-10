@@ -196,7 +196,10 @@ class ContentWidgets extends StatelessWidget {
                                       ));
                                       return bloc;
                                     },
-                                    child: CommentButtonShit(controller),
+                                    child: CommentButtonShit(
+                                      controller,
+                                      widget.product,
+                                    ),
                                   );
                                 },
                               );
@@ -357,10 +360,14 @@ class ContentWidgets extends StatelessWidget {
 
 class CommentButtonShit extends StatelessWidget {
   ScrollController _controller;
+  Product product;
 
-  CommentButtonShit(this._controller);
+  CommentButtonShit(this._controller, this.product);
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController _textController = TextEditingController();
+
     return BlocBuilder<CommentBloc, CommentState>(builder: (context, state) {
       if (state is LoadingCommentsState) {
         return Scaffold(
@@ -370,59 +377,140 @@ class CommentButtonShit extends StatelessWidget {
       }
       return Scaffold(
         backgroundColor: Colors.white,
-        body: CustomScrollView(
-          controller: _controller,
-          slivers: [
-            if (state is ResponseCommentState) ...{
-              state.response.fold((l) {
-                return SliverToBoxAdapter(
-                  child: Text(l),
-                );
-              }, (comment) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return Container(
-                          margin: const EdgeInsets.all(16),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: MyColors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    comment[index].name,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16
+        body: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+          ),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: 50,
+                height: 3,
+                color: Colors.black,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: CustomScrollView(
+                  controller: _controller,
+                  slivers: [
+                    if (state is ResponseCommentState) ...{
+                      state.response.fold((l) {
+                        return SliverToBoxAdapter(
+                          child: Text(l),
+                        );
+                      }, (comment) {
+                        return SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return Container(
+                                margin: const EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: MyColors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          comment[index].name,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                        Text(
+                                          comment[index].text,
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Text(
-                                    comment[index].text,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              CashNetworkImage(
-                                url: comment[index].thumbnail,
-                                radius: 0,
-                              )
-                            ],
-                          ));
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    CashNetworkImage(
+                                      url: comment[index].thumbnail,
+                                      radius: 0,
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                            childCount: comment.length,
+                          ),
+                        );
+                      })
                     },
-                    childCount: comment.length,
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextField(
+                    controller: _textController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(10),
+                      hintText: "نظر خود را وارد کنید",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                          color: MyColors.grey,
+                        ),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        borderSide: BorderSide(
+                          color: MyColors.blue,
+                        ),
+                      ),
+                    ),
                   ),
-                );
-              })
-            },
-          ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.read<CommentBloc>().add(
+                        SendCommentEvent(
+                          productId: product.id,
+                          comment: _textController.text,
+                        ),
+                      );
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(150, 50),
+                    backgroundColor: MyColors.blue,
+                    maximumSize: const Size(200, 100),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    )),
+                child: const Text(
+                  "ارسال نظر",
+                  style: TextStyle(
+                    color: MyColors.white,
+                    fontSize: 18,
+                    fontFamily: "sb",
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              )
+            ],
+          ),
         ),
       );
     });
