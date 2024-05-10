@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 
 abstract class ICommentDataSource {
   Future<List<Comments>> getComments(String productId);
+  Future<void> sendComment(String productId, String comment);
 }
 
 class CommentRemoteDataSource extends ICommentDataSource {
@@ -14,8 +15,9 @@ class CommentRemoteDataSource extends ICommentDataSource {
   @override
   Future<List<Comments>> getComments(String productId) async {
     try {
-      Map<String, String> qparam = {"filter": 'product_id="$productId"',
-      "expand":"user_id"
+      Map<String, String> qparam = {
+        "filter": 'product_id="$productId"',
+        "expand": "user_id"
       };
 
       var response = await _dio.get(
@@ -26,8 +28,6 @@ class CommentRemoteDataSource extends ICommentDataSource {
       return response.data["items"].map<Comments>((jsonMapObject) {
         return Comments.fromJson(jsonMapObject);
       }).toList();
-
-      
     } on DioException catch (ex) {
       throw ApiExceptiopn(
         code: ex.response!.statusCode!,
@@ -38,6 +38,24 @@ class CommentRemoteDataSource extends ICommentDataSource {
         code: 0,
         messgae: "خطا محتوای متنی ندارد",
       );
+    }
+  }
+
+  @override
+  Future<void> sendComment(String productId, String comment) async {
+    try {
+      var response = await _dio.post("collections/comment/records", data: {
+        "product_id": productId,
+        "text": comment,
+        "user_id": "o2puw73n1hpsrwd",
+      });
+    } on DioException catch (ex) {
+      throw ApiExceptiopn(
+        code: ex.response!.statusCode!,
+        messgae: ex.response!.data["message"],
+      );
+    } catch (ex) {
+      throw ApiExceptiopn(code: 0, messgae: "خطا محتوای متنی ندارد");
     }
   }
 }
