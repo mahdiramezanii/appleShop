@@ -4,7 +4,7 @@ import 'package:uni_links/uni_links.dart';
 import 'package:zarinpal/zarinpal.dart';
 
 abstract class PaymentHandler {
-  Future<void> initialPayment();
+  Future<void> initialPayment(int totalPrice);
   Future<void> requestPayment();
   Future<void> verificationPayment(String deepLink);
 }
@@ -16,9 +16,9 @@ class ZarinPalHamdllerPayment extends PaymentHandler {
   ZarinPalHamdllerPayment(this._urlHandller);
 
   @override
-  Future<void> initialPayment() async {
+  Future<void> initialPayment(int totalPrice) async {
     _paymentRequest.setIsSandBox(true);
-    _paymentRequest.setAmount(1000);
+    _paymentRequest.setAmount(totalPrice);
     _paymentRequest.setMerchantID("b3b73736-7999-4b64-b2e7-f14c42ee52a7");
     _paymentRequest.setDescription("خرید تستی از اپلیکیشن مهدی رمضانی");
     _paymentRequest.setCallbackURL("expertflutter://shop");

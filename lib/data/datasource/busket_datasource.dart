@@ -6,6 +6,7 @@ abstract class IBusketDataSource {
   Future<void> addProductToBusket(Product product);
   Future<List<Bucket>> fetchBucketList();
   Future<int> getTotalPrice();
+  Future<void> removeBusketItem(int index);
 }
 
 class BusketDataSource extends IBusketDataSource {
@@ -40,5 +41,24 @@ class BusketDataSource extends IBusketDataSource {
       return calculator + product.realPrice!;
     });
     return totalPrice;
+  }
+  
+  @override
+  Future<void> removeBusketItem(int index) async {
+
+    try{
+
+      var box = Hive.box<Bucket>("BucketBox").values.toList();
+      print(box.length);
+
+      box.removeAt(index);
+      print(box.length);
+    } catch (ex){
+
+      throw ex;
+    }
+
+       
+
   }
 }

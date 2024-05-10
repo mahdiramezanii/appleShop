@@ -8,8 +8,7 @@ abstract class IBusketRepository {
   Future<Either<String, String>> addProductToBusket(Product product);
   Future<Either<String, List<Bucket>>> fetchBucketList();
   Future<int> getTotalPrice();
-
-  
+  Future<void> removeBusketItem(int index);
 }
 
 class BusketRepository extends IBusketRepository {
@@ -34,13 +33,19 @@ class BusketRepository extends IBusketRepository {
       return const Left("خطایی رخ داده است");
     }
   }
-  
+
   @override
   Future<int> getTotalPrice() async {
-
-    var response=_dataSuorce.getTotalPrice();
+    var response = _dataSuorce.getTotalPrice();
     return response;
-  
   }
-  
+
+  @override
+  Future<void> removeBusketItem(int index) async {
+    try {
+      await _dataSuorce.removeBusketItem(index);
+    } catch (ex) {
+      print("خظایی رخ داد");
+    }
+  }
 }

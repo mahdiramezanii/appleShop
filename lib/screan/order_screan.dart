@@ -4,6 +4,7 @@ import "package:apple_shop/bloc/busket/busket_state.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/models/bucket_model.dart";
 import "package:apple_shop/util/extentions/extentions.dart";
+import "package:apple_shop/util/extentions/int_exception.dart";
 import "package:dotted_line/dotted_line.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -74,7 +75,7 @@ class _OrderScreanState extends State<OrderScrean> {
                         return SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              return OrderItemWidget(busketList[index]);
+                              return OrderItemWidget(busketList[index], index);
                             },
                             childCount: busketList.length,
                           ),
@@ -103,7 +104,7 @@ class _OrderScreanState extends State<OrderScrean> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          "${state.total_price}",
+                          " پرداخت مبلغ ${state.total_price.formatPriceWithComma()}",
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -113,7 +114,6 @@ class _OrderScreanState extends State<OrderScrean> {
                         const SizedBox(
                           width: 7,
                         ),
-                      
                       ],
                     ),
                   ),
@@ -129,8 +129,10 @@ class _OrderScreanState extends State<OrderScrean> {
 
 class OrderItemWidget extends StatelessWidget {
   Bucket busket;
+  int index;
   OrderItemWidget(
-    this.busket, {
+    this.busket,
+    this.index, {
     super.key,
   });
 
@@ -230,7 +232,15 @@ class OrderItemWidget extends StatelessWidget {
                           itemChip(title: "254 گیگ"),
                           itemChip(title: "254 گیگ"),
                           itemChip(title: "254 گیگ"),
-                          TrashChip()
+                          GestureDetector(
+                            onTap: () async {
+                              print("object");
+                              context
+                                  .read<BusketBloc>()
+                                  .add(RemoveItemBusket(busket_id: index));
+                            },
+                            child: TrashChip(),
+                          ),
                         ],
                       ),
                     )
@@ -265,9 +275,9 @@ class OrderItemWidget extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            "43,000,000",
-            style: TextStyle(
+          Text(
+            busket.realPrice!.formatPriceWithComma(),
+            style: const TextStyle(
               color: Colors.black,
               fontFamily: "sb",
               fontSize: 20,
