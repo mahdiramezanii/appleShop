@@ -25,7 +25,7 @@ class CommenstRepository extends ICommentsRepository {
   Future<Either<String, String>> sendComment(
       String productId, String comment) async {
     try {
-      var response = _dataSource.sendComment(productId, comment);
+      var response = await _dataSource.sendComment(productId, comment);
 
       return const Right("کامنت با موفقیت ارسال شد");
     } on ApiExceptiopn catch (ex) {
