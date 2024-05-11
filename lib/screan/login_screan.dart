@@ -2,6 +2,7 @@ import "package:apple_shop/bloc/authentication/auth_bloc.dart";
 import "package:apple_shop/bloc/authentication/auth_event.dart";
 import "package:apple_shop/bloc/authentication/auth_state.dart";
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/screan/bootom_navigation.dart";
 import "package:apple_shop/screan/register_screan.dart";
 
 import "package:flutter/cupertino.dart";
@@ -154,7 +155,23 @@ class LoginScrean extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
-                            return RegisterScrean();
+                            return BlocProvider(
+                              create: (context) {
+                                var bloc = AuthBloc();
+
+                                bloc.stream.forEach((state) {
+                                  if (state is ResponseAuthState) {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(builder: (context) {
+                                      return BottomNavigatonScrean();
+                                    }));
+                                  }
+                                });
+
+                                return bloc;
+                              },
+                              child: RegisterScrean(),
+                            );
                           },
                         ),
                       );

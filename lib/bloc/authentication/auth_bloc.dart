@@ -12,5 +12,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       var response = await iAuth.login(event.username, event.password);
       emit(ResponseAuthState(response));
     });
+
+    on<RegisterUserEvent>((event, emit) async {
+      emit(LoadingAuthState());
+      var response = await iAuth.register(
+        event.username,
+        event.password,
+        event.confirmPassword,
+      );
+      emit(ResponseAuthState(response));
+    });
   }
 }
