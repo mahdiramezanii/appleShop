@@ -2,9 +2,11 @@ import "package:apple_shop/bloc/authentication/auth_bloc.dart";
 import "package:apple_shop/bloc/authentication/auth_event.dart";
 import "package:apple_shop/bloc/authentication/auth_state.dart";
 import "package:apple_shop/constants/colors.dart";
+import "package:apple_shop/screan/register_screan.dart";
 
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class LoginScrean extends StatelessWidget {
@@ -15,7 +17,6 @@ class LoginScrean extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -145,6 +146,27 @@ class LoginScrean extends StatelessWidget {
 
                     return const Text("خطا");
                   }),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return RegisterScrean();
+                          },
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "حساب کاربری ندارید؟",
+                      style: TextStyle(
+                        color: MyColors.grey,
+                        fontFamily: "sm",
+                      ),
+                    ),
+                  )
                 ],
               ),
             )
