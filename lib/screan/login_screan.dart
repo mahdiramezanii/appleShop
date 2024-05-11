@@ -18,6 +18,31 @@ class LoginScrean extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        return AuthBloc();
+      },
+      child: ViewLoginWidget(
+        usernameTextController: _usernameTextController,
+        passwordTextController: _passwordTextController,
+      ),
+    );
+  }
+}
+
+class ViewLoginWidget extends StatelessWidget {
+  const ViewLoginWidget({
+    super.key,
+    required TextEditingController usernameTextController,
+    required TextEditingController passwordTextController,
+  })  : _usernameTextController = usernameTextController,
+        _passwordTextController = passwordTextController;
+
+  final TextEditingController _usernameTextController;
+  final TextEditingController _passwordTextController;
+
+  @override
+  Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -97,11 +122,20 @@ class LoginScrean extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+                  BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+                    if (state is ResponseAuthState) {
+                      state.response.fold((l) {}, (r) {
+                        return Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return BottomNavigatonScrean();
+                        }));
+                      });
+                    }
+                  }, builder: (context, state) {
                     if (state is InitAuthState) {
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(200, 50),
+                          minimumSize: const Size(200, 50),
                           backgroundColor: MyColors.green,
                         ),
                         onPressed: () {
@@ -153,27 +187,9 @@ class LoginScrean extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return BlocProvider(
-                              create: (context) {
-                                var bloc = AuthBloc();
-
-                                bloc.stream.forEach((state) {
-                                  if (state is ResponseAuthState) {
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(builder: (context) {
-                                      return BottomNavigatonScrean();
-                                    }));
-                                  }
-                                });
-
-                                return bloc;
-                              },
-                              child: RegisterScrean(),
-                            );
-                          },
-                        ),
+                        MaterialPageRoute(builder: (context) {
+                          return RegisterScrean();
+                        }),
                       );
                     },
                     child: const Text(

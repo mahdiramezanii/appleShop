@@ -2,6 +2,7 @@ import 'package:apple_shop/bloc/authentication/auth_bloc.dart';
 import 'package:apple_shop/bloc/authentication/auth_event.dart';
 import 'package:apple_shop/bloc/authentication/auth_state.dart';
 import 'package:apple_shop/constants/colors.dart';
+import 'package:apple_shop/screan/bootom_navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +14,44 @@ class RegisterScrean extends StatelessWidget {
     TextEditingController _usernameController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
     TextEditingController _passwordConfirmController = TextEditingController();
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocProvider(
+      create: (context) => AuthBloc(),
+      child: ViewRegisterWidget(
+        usernameController: _usernameController,
+        passwordController: _passwordController,
+        passwordConfirmController: _passwordConfirmController,
+      ),
+    );
+  }
+}
+
+class ViewRegisterWidget extends StatelessWidget {
+  const ViewRegisterWidget({
+    super.key,
+    required TextEditingController usernameController,
+    required TextEditingController passwordController,
+    required TextEditingController passwordConfirmController,
+  })  : _usernameController = usernameController,
+        _passwordController = passwordController,
+        _passwordConfirmController = passwordConfirmController;
+
+  final TextEditingController _usernameController;
+  final TextEditingController _passwordController;
+  final TextEditingController _passwordConfirmController;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is ResponseAuthState) {
+          state.response.fold((l) => null, (r) {
+            return Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (context) {
+              return BottomNavigatonScrean();
+            }));
+          });
+        }
+      },
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
@@ -157,7 +195,6 @@ class RegisterScrean extends StatelessWidget {
                             confirmPassword: _passwordConfirmController.text,
                           ),
                         );
-                    
                   },
                   child: (state is LoadingAuthState)
                       ? const CircularProgressIndicator()

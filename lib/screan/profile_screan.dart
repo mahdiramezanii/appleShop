@@ -248,7 +248,10 @@ class ProfileScrean extends StatelessWidget {
                           ),
                         ),
                         child: const Image(
-                            image: AssetImage("assets/images/discount.png")),
+                          image: AssetImage(
+                            "assets/images/discount.png",
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 5,
@@ -291,28 +294,7 @@ class ProfileScrean extends StatelessWidget {
                 AuthManager.logout();
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return BlocProvider(
-                    create: (context) {
-                      var bloc = AuthBloc();
-
-                      bloc.stream.forEach((state) {
-                        if (state is ResponseAuthState) {
-                          state.response.fold((l) => null, (r) {
-                            return globalKey.currentState?.pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return BottomNavigatonScrean();
-                                },
-                              ),
-                            );
-                          });
-                        }
-                      });
-
-                      return bloc;
-                    },
-                    child: LoginScrean(),
-                  );
+                  return LoginScrean();
                 }));
               },
               style: ElevatedButton.styleFrom(
