@@ -25,11 +25,14 @@ class AuthenticationDataSource implements IAuthenticationDataSource {
         "username": username,
         "password": password,
         "passwordConfirm": passwordConfirm,
+        "name": username,
       });
+      login(username, password);
     } on DioException catch (ex) {
       throw ApiExceptiopn(
         code: ex.response!.statusCode!,
         messgae: ex.response!.data["message"],
+        response: ex.response,
       );
     } catch (ex) {
       throw ApiExceptiopn(code: 0, messgae: "Erorr");
@@ -44,7 +47,7 @@ class AuthenticationDataSource implements IAuthenticationDataSource {
 
       if (response.statusCode == 200) {
         AuthManager.setUserId(response.data["record"]["id"]);
-
+        AuthManager.setToken(response.data["token"]);
 
         return response.data["token"];
       } else {

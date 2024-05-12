@@ -124,7 +124,20 @@ class ViewLoginWidget extends StatelessWidget {
                   ),
                   BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
                     if (state is ResponseAuthState) {
-                      state.response.fold((l) {}, (r) {
+                      state.response.fold((l) {
+                        _usernameTextController.text = "";
+                        _passwordTextController.text = "";
+                        var snakBar = SnackBar(
+                          content: Text(l),
+                          showCloseIcon: true,
+                          closeIconColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          duration: const Duration(seconds: 2),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          snakBar,
+                        );
+                      }, (r) {
                         return Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
                           return BottomNavigatonScrean();
@@ -162,12 +175,30 @@ class ViewLoginWidget extends StatelessWidget {
                     }
 
                     if (state is ResponseAuthState) {
-                      Text widget = const Text("");
+                      Widget widget = const Text("");
 
                       state.response.fold((l) {
-                        widget = Text(
-                          l,
-                          style: const TextStyle(color: Colors.red),
+                        widget = ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(200, 50),
+                            backgroundColor: MyColors.green,
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<AuthBloc>(context).add(
+                              RequestLoginEvent(
+                                username: _usernameTextController.text,
+                                password: _passwordTextController.text,
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "ورود به حساب کاربری",
+                            style: TextStyle(
+                              fontFamily: "sb",
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
                         );
                       }, (r) {
                         widget = Text(
@@ -186,7 +217,7 @@ class ViewLoginWidget extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
+                      Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) {
                           return RegisterScrean();
                         }),
