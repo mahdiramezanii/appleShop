@@ -44,7 +44,16 @@ class ViewRegisterWidget extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is ResponseAuthState) {
-          state.response.fold((l) => null, (r) {
+          state.response.fold((l) {
+            var snakBar = SnackBar(
+              content: Text(l),
+              behavior: SnackBarBehavior.floating,
+              showCloseIcon: true,
+              duration: const Duration(seconds: 4),
+              closeIconColor: Colors.red,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snakBar);
+          }, (r) {
             return Navigator.of(context)
                 .pushReplacement(MaterialPageRoute(builder: (context) {
               return BottomNavigatonScrean();
@@ -209,7 +218,7 @@ class ViewRegisterWidget extends StatelessWidget {
                 ),
                 if (state is ResponseAuthState) ...{
                   state.response.fold((l) {
-                    return Text(l);
+                    return Text("");
                   }, (r) {
                     return Text(r);
                   })
