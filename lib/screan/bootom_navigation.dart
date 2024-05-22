@@ -1,12 +1,16 @@
 import "dart:ui";
 
+import "package:apple_shop/bloc/busket/busket_bloc.dart";
+import "package:apple_shop/bloc/busket/busket_event.dart";
 import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/datasource/authentication_datasource.dart";
+import "package:apple_shop/di/service_locator.dart";
 import "package:apple_shop/screan/category_screan.dart";
 import "package:apple_shop/screan/home_screan.dart";
 import "package:apple_shop/screan/order_screan.dart";
 import "package:apple_shop/screan/profile_screan.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class BottomNavigatonScrean extends StatefulWidget {
   BottomNavigatonScrean({super.key});
@@ -17,8 +21,6 @@ class BottomNavigatonScrean extends StatefulWidget {
 
 class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
   var _selectedIndex = 3;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +86,15 @@ class _BottomNavigatonScreanState extends State<BottomNavigatonScrean> {
   List<Widget> get_layout() {
     List<Widget> layouts = [
       ProfileScrean(),
-      const OrderScrean(),
-       CategoryScrean(),
+      BlocProvider(
+        create: (context) {
+          var bloc = locator.get<BusketBloc>();
+          bloc.add(FetchBusketEvent());
+          return bloc;
+        },
+        child: OrderScrean(),
+      ),
+      CategoryScrean(),
       const HomeScrean(),
     ];
 

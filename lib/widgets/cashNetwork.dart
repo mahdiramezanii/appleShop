@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CashNetworkImage extends StatelessWidget {
-  CashNetworkImage( {super.key, required this.url,required this.radius});
+  CashNetworkImage({super.key, required this.url, required this.radius});
   String url;
   double radius;
 
@@ -19,7 +19,9 @@ class CashNetworkImage extends StatelessWidget {
           return SpinKitCircle(
             itemBuilder: (BuildContext context, int index) {
               return const DecoratedBox(
-                decoration: BoxDecoration(color: Colors.grey),
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                ),
               );
             },
           );
@@ -30,7 +32,9 @@ class CashNetworkImage extends StatelessWidget {
             child: SpinKitCircle(
               itemBuilder: (BuildContext context, int index) {
                 return const DecoratedBox(
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
                 );
               },
             ),

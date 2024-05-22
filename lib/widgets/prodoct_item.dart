@@ -1,5 +1,6 @@
 import 'package:apple_shop/constants/colors.dart';
 import 'package:apple_shop/data/models/product_model.dart';
+import 'package:apple_shop/util/extentions/int_exception.dart';
 import 'package:apple_shop/widgets/cashNetwork.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ Widget ProdouctItem(Product product) {
     height: 216,
     width: 160,
     decoration: BoxDecoration(
-        color: Colors.white, borderRadius: BorderRadius.circular(15)),
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(15),
+    ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -43,13 +46,18 @@ Widget ProdouctItem(Product product) {
               bottom: 5,
               child: Container(
                 decoration: BoxDecoration(
-                    color: MyColors.red,
-                    borderRadius: BorderRadius.circular(15)),
-                child:  Padding(
-                  padding:const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
+                  color: MyColors.red,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 1,
+                  ),
                   child: Text(
                     "%${product.percent!.round()}",
-                    style: const TextStyle(fontFamily: "sm", color: Colors.white),
+                    style:
+                        const TextStyle(fontFamily: "sm", color: Colors.white),
                   ),
                 ),
               ),
@@ -67,7 +75,6 @@ Widget ProdouctItem(Product product) {
         ),
         Container(
           height: 53,
-          width: 160,
           decoration: const BoxDecoration(
             color: MyColors.blue,
             borderRadius: BorderRadius.only(
@@ -75,20 +82,23 @@ Widget ProdouctItem(Product product) {
               bottomRight: Radius.circular(15),
             ),
           ),
-          child:  Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Text(
                 "تومان",
                 style: TextStyle(
-                    fontFamily: "sm", fontSize: 14, color: Colors.white),
+                  fontFamily: "sm",
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "${product.discount_price}",
-                    style:const  TextStyle(
+                    product.discount_price.formatPriceWithComma(),
+                    style: const TextStyle(
                       fontFamily: "sm",
                       color: Colors.white,
                       decoration: TextDecoration.lineThrough,
@@ -98,8 +108,8 @@ Widget ProdouctItem(Product product) {
                     ),
                   ),
                   Text(
-                    "${product.realPrice}",
-                    style: TextStyle(
+                    product.realPrice!.formatPriceWithComma(),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontFamily: "sm",
                       fontSize: 14,
@@ -107,7 +117,7 @@ Widget ProdouctItem(Product product) {
                   ),
                 ],
               ),
-              Image(image: AssetImage("assets/images/arrow.png"))
+              const Image(image: AssetImage("assets/images/arrow.png"))
             ],
           ),
         )

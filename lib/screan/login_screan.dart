@@ -2,9 +2,12 @@ import "package:apple_shop/bloc/authentication/auth_bloc.dart";
 import "package:apple_shop/bloc/authentication/auth_event.dart";
 import "package:apple_shop/bloc/authentication/auth_state.dart";
 import "package:apple_shop/constants/colors.dart";
-import "package:dartz/dartz.dart";
+import "package:apple_shop/screan/bootom_navigation.dart";
+import "package:apple_shop/screan/register_screan.dart";
+
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class LoginScrean extends StatelessWidget {
@@ -12,6 +15,31 @@ class LoginScrean extends StatelessWidget {
 
   final TextEditingController _usernameTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        return AuthBloc();
+      },
+      child: ViewLoginWidget(
+        usernameTextController: _usernameTextController,
+        passwordTextController: _passwordTextController,
+      ),
+    );
+  }
+}
+
+class ViewLoginWidget extends StatelessWidget {
+  const ViewLoginWidget({
+    super.key,
+    required TextEditingController usernameTextController,
+    required TextEditingController passwordTextController,
+  })  : _usernameTextController = usernameTextController,
+        _passwordTextController = passwordTextController;
+
+  final TextEditingController _usernameTextController;
+  final TextEditingController _passwordTextController;
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +122,33 @@ class LoginScrean extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+                  BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+                    if (state is ResponseAuthState) {
+                      state.response.fold((l) {
+                        _usernameTextController.text = "";
+                        _passwordTextController.text = "";
+                        var snakBar = SnackBar(
+                          content: Text(l),
+                          showCloseIcon: true,
+                          closeIconColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          duration: const Duration(seconds: 2),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          snakBar,
+                        );
+                      }, (r) {
+                        return Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return BottomNavigatonScrean();
+                        }));
+                      });
+                    }
+                  }, builder: (context, state) {
                     if (state is InitAuthState) {
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(200, 50),
+                          minimumSize: const Size(200, 50),
                           backgroundColor: MyColors.green,
                         ),
                         onPressed: () {
@@ -124,24 +174,63 @@ class LoginScrean extends StatelessWidget {
                       return const CircularProgressIndicator();
                     }
 
-                    if (state is ResponseAuthState){
-
-                      Text widget=Text("");
+                    if (state is ResponseAuthState) {
+                      Widget widget = const Text("");
 
                       state.response.fold((l) {
-                        widget=Text(l,style: TextStyle(color: Colors.red),);
-
+                        widget = ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(200, 50),
+                            backgroundColor: MyColors.green,
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<AuthBloc>(context).add(
+                              RequestLoginEvent(
+                                username: _usernameTextController.text,
+                                password: _passwordTextController.text,
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "ورود به حساب کاربری",
+                            style: TextStyle(
+                              fontFamily: "sb",
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                        );
                       }, (r) {
-
-                        widget=Text(r,style: TextStyle(color: Colors.blue),);
-
+                        widget = Text(
+                          r,
+                          style: const TextStyle(color: Colors.blue),
+                        );
                       });
 
                       return widget;
                     }
 
-                    return Text("خطا");
+                    return const Text("خطا");
                   }),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) {
+                          return RegisterScrean();
+                        }),
+                      );
+                    },
+                    child: const Text(
+                      "حساب کاربری ندارید؟",
+                      style: TextStyle(
+                        color: MyColors.grey,
+                        fontFamily: "sm",
+                      ),
+                    ),
+                  )
                 ],
               ),
             )

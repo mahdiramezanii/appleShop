@@ -1,5 +1,6 @@
 import 'package:apple_shop/di/service_locator.dart';
 import 'package:apple_shop/util/api_exception.dart';
+import 'package:apple_shop/util/auth_manager.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -24,11 +25,14 @@ class AuthenticationDataSource implements IAuthenticationDataSource {
         "username": username,
         "password": password,
         "passwordConfirm": passwordConfirm,
+        "name": username,
       });
+      login(username, password);
     } on DioException catch (ex) {
       throw ApiExceptiopn(
         code: ex.response!.statusCode!,
         messgae: ex.response!.data["message"],
+        response: ex.response,
       );
     } catch (ex) {
       throw ApiExceptiopn(code: 0, messgae: "Erorr");
@@ -42,9 +46,11 @@ class AuthenticationDataSource implements IAuthenticationDataSource {
           data: {"identity": username, "password": password});
 
       if (response.statusCode == 200) {
+        AuthManager.setUserId(response.data["record"]["id"]);
+        AuthManager.setToken(response.data["token"]);
+
         return response.data["token"];
-      }
-      else{
+      } else {
         return "";
       }
     } on DioException catch (ex) {
