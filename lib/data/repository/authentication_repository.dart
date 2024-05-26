@@ -22,7 +22,7 @@ class AuthenticatinRepository implements IAuthenticatinRepository {
       await iauth.registerUser(username, password, passwordConfirm);
       return const Right("ثبت نام با موفقیت انجام شد");
     } on ApiExceptiopn catch (ex) {
-      return const Left("ثبت نام انجام نشد");
+      return Left(ex.messgae);
     }
   }
 
@@ -32,7 +32,7 @@ class AuthenticatinRepository implements IAuthenticatinRepository {
       String token = await iauth.login(username, password);
 
       if (token.isNotEmpty) {
-        AuthManager.setToken(token);
+      
         return Right("لاگین انجام شد");
       } else {
         return const Left("خطا");

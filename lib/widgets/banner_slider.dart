@@ -2,10 +2,12 @@ import "package:apple_shop/constants/colors.dart";
 import "package:apple_shop/data/models/banner_model.dart";
 import "package:apple_shop/widgets/cashNetwork.dart";
 import "package:flutter/material.dart";
+import "package:flutter/widgets.dart";
 import "package:smooth_page_indicator/smooth_page_indicator.dart";
 
 // ignore: must_be_immutable
 class BannerSlider extends StatelessWidget {
+  
   BannerSlider({super.key, this.response});
   List<BannerModel>? response;
 
@@ -13,23 +15,29 @@ class BannerSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.bottomCenter, children: [
-      SizedBox(
-        height: 177,
-        child: PageView.builder(
-          scrollDirection: Axis.horizontal,
-          controller: controller,
-          itemCount: response?.length ?? 1,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.all(8),
-              height: 177,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: CashNetworkImage(url: response?[index].thumbnail ?? "",radius: 15,),
-            );
-          },
+      Directionality(
+        textDirection: TextDirection.rtl,
+        child: SizedBox(
+          height: 177,
+          child: PageView.builder(
+            scrollDirection: Axis.horizontal,
+            controller: controller,
+            itemCount: response?.length ?? 1,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.all(8),
+                height: 177,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: CashNetworkImage(
+                  url: response?[index].thumbnail ?? "",
+                  radius: 15,
+                ),
+              );
+            },
+          ),
         ),
       ),
       Positioned(
